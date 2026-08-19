@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
@@ -16,23 +17,37 @@ export default async function ClientDashboardPage() {
 
   return (
     <div>
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
-        Mes projets
-      </h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Suivez l&apos;avancement de vos missions au Cameroun en temps réel.
-      </p>
+      <div className="flex flex-wrap items-center justify-between gap-2">
+        <div>
+          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+            Mes projets
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            Suivez l&apos;avancement de vos missions au Cameroun en temps réel.
+          </p>
+        </div>
+        <Link
+          href="/dashboard/nouveau-projet"
+          className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark"
+        >
+          Déposer un projet
+        </Link>
+      </div>
 
       <div className="mt-6 space-y-4">
         {!missions?.length && (
           <p className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
-            Vous n&apos;avez pas encore de projet en cours. Contactez YEGA pour
-            démarrer votre premier projet.
+            Vous n&apos;avez pas encore de projet en cours. Cliquez sur « Déposer un
+            projet » pour démarrer votre première mission.
           </p>
         )}
 
         {missions?.map((mission) => (
-          <div key={mission.id} className="rounded-xl border border-gray-200 bg-white p-5">
+          <Link
+            key={mission.id}
+            href={`/missions/${mission.id}`}
+            className="block rounded-xl border border-gray-200 bg-white p-5 hover:border-brand-green"
+          >
             <div className="flex items-center justify-between">
               <h2 className="font-medium text-gray-800">
                 {MISSION_TYPE_LABELS[mission.type]}
@@ -48,7 +63,7 @@ export default async function ClientDashboardPage() {
             <div className="mt-4">
               <StatusTimeline statut={mission.statut} />
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>

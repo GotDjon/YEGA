@@ -59,10 +59,56 @@ export interface Mission {
   statut: MissionStatus;
   ville: string | null;
   description: string | null;
+  budget_estime: number | null;
   date_creation: string;
 }
 
 export interface MissionWithRelations extends Mission {
   client: Pick<Profile, "id" | "nom"> | null;
   agent: Pick<Profile, "id" | "nom"> | null;
+}
+
+export type DocumentType =
+  | "devis"
+  | "facture"
+  | "contrat"
+  | "piece_identite"
+  | "titre_foncier";
+
+export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
+  devis: "Devis",
+  facture: "Facture",
+  contrat: "Contrat",
+  piece_identite: "Pièce d'identité",
+  titre_foncier: "Titre foncier",
+};
+
+export interface DocumentRow {
+  id: string;
+  mission_id: string;
+  type: DocumentType;
+  url: string;
+  date: string;
+}
+
+export type ReportType = "photo" | "video" | "pdf" | "checklist";
+export type ReportEtape = "avant" | "pendant" | "apres";
+
+export const REPORT_ETAPE_LABELS: Record<ReportEtape, string> = {
+  avant: "Avant",
+  pendant: "Pendant",
+  apres: "Après",
+};
+
+export interface ReportRow {
+  id: string;
+  mission_id: string;
+  type: ReportType;
+  url: string;
+  gps_lat: number | null;
+  gps_lng: number | null;
+  etape: ReportEtape | null;
+  observations: string | null;
+  date_upload: string;
+  valide_par: string | null;
 }

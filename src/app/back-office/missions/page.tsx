@@ -61,8 +61,10 @@ export default async function BackOfficeMissionsPage() {
           <div key={mission.id} className="rounded-xl border border-gray-200 bg-white p-5">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-medium text-gray-800">
-                {MISSION_TYPE_LABELS[mission.type]}
-                {mission.ville ? ` — ${mission.ville}` : ""}
+                <Link href={`/missions/${mission.id}`} className="hover:text-brand-green hover:underline">
+                  {MISSION_TYPE_LABELS[mission.type]}
+                  {mission.ville ? ` — ${mission.ville}` : ""}
+                </Link>
                 <span className="ml-2 text-sm font-normal text-gray-400">
                   client : {mission.client?.nom ?? "—"}
                 </span>
