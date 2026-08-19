@@ -1,0 +1,133 @@
+import Link from "next/link";
+import { createClient } from "@/lib/supabase/server";
+import { getCurrentProfile } from "@/lib/supabase/session";
+import { StatusTimeline } from "@/components/StatusTimeline";
+import { assignMission, updateMissionStatus } from "../actions";
+import {
+  MISSION_STATUS_LABELS,
+  MISSION_STATUS_ORDER,
+  MISSION_TYPE_LABELS,
+  type MissionWithRelations,
+} from "@/lib/supabase/types";
+
+const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
+
+export default async function BackOfficeMissionsPage() {
+  const profile = await getCurrentProfile();
+  const isStaff = STAFF_ROLES.includes(profile!.role);
+  const supabase = await createClient();
+
+  const { data: missions } = await supabase
+    .from("missions")
+    .select("*, client:profiles!missions_client_id_fkey(id, nom), agent:profiles!missions_agent_id_fkey(id, nom)")
+    .order("date_creation", { ascending: false })
+    .returns<MissionWithRelations[]>();
+
+  const { data: agents } = isStaff
+    ? await supabase.from("profiles").select("id, nom").eq("role", "agent")
+    : { data: [] };
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+            Missions
+          </h1>
+          <p className="mt-1 text-sm text-gray-500">
+            {isStaff
+              ? "Toutes les missions actives de YEGA."
+              : "Les missions qui vous sont assignées."}
+          </p>
+        </div>
+        {isStaff && (
+          <Link
+            href="/back-office/missions/new"
+            className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark"
+          >
+            Nouvelle mission
+          </Link>
+        )}
+      </div>
+
+      <div className="mt-6 space-y-4">
+        {!missions?.length && (
+          <p className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+            Aucune mission pour le moment.
+          </p>
+        )}
+
+        {missions?.map((mission) => (
+          <div key={mission.id} className="rounded-xl border border-gray-200 bg-white p-5">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h2 className="font-medium text-gray-800">
+                {MISSION_TYPE_LABELS[mission.type]}
+                {mission.ville ? ` — ${mission.ville}` : ""}
+                <span className="ml-2 text-sm font-normal text-gray-400">
+                  client : {mission.client?.nom ?? "—"}
+                </span>
+              </h2>
+              <span className="text-xs text-gray-400">
+                {new Date(mission.date_creation).toLocaleDateString("fr-FR")}
+              </span>
+            </div>
+            {mission.description && (
+              <p className="mt-1 text-sm text-gray-500">{mission.description}</p>
+            )}
+
+            <div className="mt-4">
+              <StatusTimeline statut={mission.statut} />
+            </div>
+
+            {isStaff ? (
+              <div className="mt-4 flex flex-wrap gap-4 border-t border-gray-100 pt-4 text-sm">
+                <form action={assignMission} className="flex items-center gap-2">
+                  <input type="hidden" name="mission_id" value={mission.id} />
+                  <label className="text-gray-500">Agent :</label>
+                  <select
+                    name="agent_id"
+                    defaultValue={mission.agent_id ?? ""}
+                    className="rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                  >
+                    <option value="">Non assigné</option>
+                    {agents?.map((agent) => (
+                      <option key={agent.id} value={agent.id}>
+                        {agent.nom}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="submit" className="text-brand-green hover:underline">
+                    Affecter
+                  </button>
+                </form>
+
+                <form action={updateMissionStatus} className="flex items-center gap-2">
+                  <input type="hidden" name="mission_id" value={mission.id} />
+                  <label className="text-gray-500">Statut :</label>
+                  <select
+                    name="statut"
+                    defaultValue={mission.statut}
+                    className="rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                  >
+                    {MISSION_STATUS_ORDER.map((status) => (
+                      <option key={status} value={status}>
+                        {MISSION_STATUS_LABELS[status]}
+                      </option>
+                    ))}
+                  </select>
+                  <button type="submit" className="text-brand-green hover:underline">
+                    Mettre à jour
+                  </button>
+                </form>
+              </div>
+            ) : (
+              <p className="mt-4 border-t border-gray-100 pt-4 text-xs text-gray-400">
+                Agent assigné : {mission.agent?.nom ?? "vous"}
+              </p>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
