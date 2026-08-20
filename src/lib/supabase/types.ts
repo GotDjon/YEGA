@@ -140,3 +140,46 @@ export interface PaymentRow {
   date: string;
   reference_transaction: string | null;
 }
+
+export interface MessageRow {
+  id: string;
+  mission_id: string;
+  sender_id: string;
+  contenu: string;
+  piece_jointe_url: string | null;
+  date: string;
+  lu: boolean;
+}
+
+export type VisitStatus = "planifiee" | "terminee" | "annulee";
+
+export const VISIT_STATUS_LABELS: Record<VisitStatus, string> = {
+  planifiee: "Planifiée",
+  terminee: "Terminée",
+  annulee: "Annulée",
+};
+
+export interface VisitRow {
+  id: string;
+  mission_id: string;
+  agent_id: string;
+  planifie_le: string;
+  notes: string | null;
+  statut: VisitStatus;
+  created_by: string;
+  date_creation: string;
+}
+
+export interface VisitWithRelations extends VisitRow {
+  mission: { id: string; type: MissionType; ville: string | null } | null;
+  agent: Pick<Profile, "id" | "nom"> | null;
+}
+
+export interface NotificationRow {
+  id: string;
+  user_id: string;
+  contenu: string;
+  lien: string | null;
+  lu: boolean;
+  date_creation: string;
+}

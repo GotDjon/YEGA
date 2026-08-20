@@ -6,6 +6,8 @@ import { DocumentsSection } from "./documents-section";
 import { ReportsSection } from "./reports-section";
 import { GallerySection } from "./gallery-section";
 import { PaymentsSection } from "./payments-section";
+import { MessagesSection } from "./messages-section";
+import { VisitsSection } from "./visits-section";
 import {
   MISSION_TYPE_LABELS,
   type DocumentRow,
@@ -100,6 +102,10 @@ export default async function MissionDetailPage({
         <GallerySection reports={reports ?? []} />
 
         <PaymentsSection missionId={mission.id} isClient={isClient} />
+
+        <VisitsSection missionId={mission.id} />
+
+        <MessagesSection missionId={mission.id} currentUserId={profile!.id} />
       </div>
     </div>
   );

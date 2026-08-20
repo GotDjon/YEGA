@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { initCinetPayPayment } from "@/lib/cinetpay";
+import { notify } from "@/lib/notifications";
 import type {
   DocumentType,
   MissionType,
@@ -197,5 +198,45 @@ export async function validateReport(formData: FormData) {
     .update({ valide_par: userId })
     .eq("id", reportId);
 
+  const { data: mission } = await supabase
+    .from("missions")
+    .select("client_id")
+    .eq("id", missionId)
+    .single();
+  if (mission?.client_id) {
+    await notify(mission.client_id, "Un nouveau rapport est disponible pour votre mission.", `/missions/${missionId}`);
+  }
+
   revalidatePath(`/missions/${missionId}`);
+}
+
+// Module 10 — messagerie par mission (fil de discussion client ↔ agent assigné).
+export async function sendMessage(
+  _prevState: FormActionState,
+  formData: FormData,
+): Promise<FormActionState> {
+  const missionId = String(formData.get("mission_id") ?? "");
+  const contenu = String(formData.get("contenu") ?? "").trim();
+  if (!missionId || !contenu) return { error: "Message vide." };
+
+  const { supabase, userId } = await requireUser();
+
+  const { data: mission } = await supabase
+    .from("missions")
+    .select("client_id, agent_id")
+    .eq("id", missionId)
+    .single();
+
+  const { error } = await supabase
+    .from("messages")
+    .insert({ mission_id: missionId, sender_id: userId, contenu });
+  if (error) return { error: error.message };
+
+  const recipient = userId === mission?.client_id ? mission?.agent_id : mission?.client_id;
+  if (recipient) {
+    await notify(recipient, "Nouveau message sur une de vos missions.", `/missions/${missionId}`);
+  }
+
+  revalidatePath(`/missions/${missionId}`);
+  return { error: null };
 }
