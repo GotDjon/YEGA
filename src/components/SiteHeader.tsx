@@ -28,6 +28,11 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
             <Link href="/dashboard" className="hover:text-brand-green">
               Mes projets
             </Link>
+            {profile.role === "client" && (
+              <Link href="/assistant" className="hover:text-brand-green">
+                Assistant
+              </Link>
+            )}
             {hasBackOffice && (
               <>
                 <Link href="/back-office/missions" className="hover:text-brand-green">
