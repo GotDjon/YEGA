@@ -10,9 +10,11 @@ export function StatusTimeline({ statut }: { statut: MissionStatus }) {
   return (
     <ol className="flex items-start">
       {MISSION_STATUS_ORDER.map((step, index) => {
-        const isDone = index < currentIndex;
-        const isCurrent = index === currentIndex;
         const isLast = index === MISSION_STATUS_ORDER.length - 1;
+        // Le statut final ("Clôturée") est un aboutissement, pas une étape "en cours" —
+        // il s'affiche donc comme terminé (coche), jamais en or.
+        const isDone = index < currentIndex || (index === currentIndex && isLast);
+        const isCurrent = index === currentIndex && !isLast;
 
         return (
           <li key={step} className={"flex items-center" + (isLast ? "" : " flex-1")}>
