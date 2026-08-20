@@ -13,7 +13,7 @@ export default async function LoginPage({
     <div className="brand-surface flex min-h-screen items-center justify-center px-4 py-12">
       <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl shadow-2xl shadow-black/30 md:grid-cols-2">
         <div className="hidden flex-col justify-between bg-transparent p-10 text-white md:flex">
-          <Logo variant="light" />
+          <Logo variant="light" size="lg" />
           <div>
             <p className="font-[family-name:var(--font-display)] text-3xl leading-tight">
               Même à des milliers de kilomètres, gardez le contrôle de votre projet au Cameroun.
