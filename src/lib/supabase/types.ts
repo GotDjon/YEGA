@@ -112,3 +112,31 @@ export interface ReportRow {
   date_upload: string;
   valide_par: string | null;
 }
+
+export type PaymentMethod = "momo" | "orange" | "carte" | "paypal" | "virement";
+export type PaymentStatus = "en_attente" | "accepte" | "refuse" | "annule";
+
+export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
+  momo: "MTN MoMo",
+  orange: "Orange Money",
+  carte: "Carte bancaire",
+  paypal: "PayPal",
+  virement: "Virement",
+};
+
+export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
+  en_attente: "En attente",
+  accepte: "Accepté",
+  refuse: "Refusé",
+  annule: "Annulé",
+};
+
+export interface PaymentRow {
+  id: string;
+  mission_id: string;
+  montant: number;
+  methode: PaymentMethod | null;
+  statut: string;
+  date: string;
+  reference_transaction: string | null;
+}

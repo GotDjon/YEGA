@@ -5,6 +5,7 @@ import { StatusTimeline } from "@/components/StatusTimeline";
 import { DocumentsSection } from "./documents-section";
 import { ReportsSection } from "./reports-section";
 import { GallerySection } from "./gallery-section";
+import { PaymentsSection } from "./payments-section";
 import {
   MISSION_TYPE_LABELS,
   type DocumentRow,
@@ -97,6 +98,8 @@ export default async function MissionDetailPage({
         />
 
         <GallerySection reports={reports ?? []} />
+
+        <PaymentsSection missionId={mission.id} isClient={isClient} />
       </div>
     </div>
   );

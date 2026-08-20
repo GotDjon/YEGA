@@ -2,7 +2,9 @@
 
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
+import { initCinetPayPayment } from "@/lib/cinetpay";
 import type {
   DocumentType,
   MissionType,
@@ -124,6 +126,64 @@ export async function createReport(
 
   revalidatePath(`/missions/${missionId}`);
   return { error: null };
+}
+
+async function getOrigin() {
+  const h = await headers();
+  const host = h.get("host") ?? "localhost:3000";
+  const proto = host.startsWith("localhost") ? "http" : "https";
+  return `${proto}://${host}`;
+}
+
+// Module 9 — le client initie un paiement (Mobile Money / carte) via l'agrégateur CinetPay.
+export async function initiatePayment(
+  _prevState: FormActionState,
+  formData: FormData,
+): Promise<FormActionState> {
+  const missionId = String(formData.get("mission_id") ?? "");
+  const montantRaw = String(formData.get("montant") ?? "").trim();
+  const montant = Number(montantRaw);
+
+  if (!missionId || !montantRaw || !Number.isFinite(montant) || montant <= 0) {
+    return { error: "Indiquez un montant valide." };
+  }
+
+  const { supabase, userId } = await requireUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("nom")
+    .eq("id", userId)
+    .single();
+
+  const transactionId = crypto.randomUUID();
+
+  const { error: insertError } = await supabase.from("payments").insert({
+    mission_id: missionId,
+    montant,
+    statut: "en_attente",
+    reference_transaction: transactionId,
+  });
+  if (insertError) return { error: insertError.message };
+
+  const origin = await getOrigin();
+  const result = await initCinetPayPayment({
+    transactionId,
+    amount: montant,
+    description: `Paiement mission YEGA — ${missionId}`,
+    notifyUrl: `${origin}/api/payments/webhook`,
+    returnUrl: `${origin}/missions/${missionId}`,
+    customerName: profile?.nom ?? "Client YEGA",
+    customerEmail: user?.email ?? "",
+  });
+
+  if (!result.success || !result.paymentUrl) {
+    return { error: result.error ?? "Impossible d'initier le paiement." };
+  }
+
+  redirect(result.paymentUrl);
 }
 
 // Validation d'un rapport par le responsable technique — le rend visible du client (module 7).

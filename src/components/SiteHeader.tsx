@@ -3,9 +3,11 @@ import { logout } from "@/app/(auth)/actions";
 import type { Profile } from "@/lib/supabase/types";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
+const BACK_OFFICE_ROLES = ["agent", ...STAFF_ROLES];
 
 export function SiteHeader({ profile }: { profile: Profile }) {
   const isStaff = STAFF_ROLES.includes(profile.role);
+  const hasBackOffice = BACK_OFFICE_ROLES.includes(profile.role);
 
   return (
     <header className="border-b border-gray-200 bg-white">
@@ -18,10 +20,20 @@ export function SiteHeader({ profile }: { profile: Profile }) {
             <Link href="/dashboard" className="hover:text-brand-green">
               Mes projets
             </Link>
-            {isStaff && (
+            {hasBackOffice && (
               <Link href="/back-office/missions" className="hover:text-brand-green">
                 Back-office
               </Link>
+            )}
+            {isStaff && (
+              <>
+                <Link href="/back-office/clients" className="hover:text-brand-green">
+                  Clients
+                </Link>
+                <Link href="/back-office/direction" className="hover:text-brand-green">
+                  Direction
+                </Link>
+              </>
             )}
           </nav>
         </div>
