@@ -12,7 +12,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
   return (
     <form
       action={formAction}
-      className="mt-6 space-y-4 rounded-xl border border-gray-200 bg-white p-6"
+      className="card mt-6 space-y-4 rounded-2xl border border-gray-100 bg-white p-6"
     >
       <div>
         <label htmlFor="client_id" className="block text-sm font-medium text-gray-700">
@@ -22,7 +22,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
           id="client_id"
           name="client_id"
           required
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
         >
           <option value="">Sélectionner un client</option>
           {clients.map((client) => (
@@ -41,7 +41,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
           id="type"
           name="type"
           required
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
         >
           {Object.entries(MISSION_TYPE_LABELS).map(([value, label]) => (
             <option key={value} value={value}>
@@ -59,7 +59,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
           id="ville"
           name="ville"
           type="text"
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
         />
       </div>
 
@@ -71,7 +71,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
           id="description"
           name="description"
           rows={3}
-          className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
         />
       </div>
 
@@ -80,7 +80,7 @@ export function MissionForm({ clients }: { clients: { id: string; nom: string }[
       <button
         type="submit"
         disabled={pending}
-        className="w-full rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark disabled:opacity-60"
+        className="w-full rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
       >
         {pending ? "Création…" : "Créer la mission"}
       </button>

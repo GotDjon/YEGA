@@ -41,7 +41,7 @@ export default async function AgendaPage() {
 
   return (
     <div>
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Agenda
       </h1>
       <p className="mt-1 text-sm text-gray-500">
@@ -62,14 +62,14 @@ export default async function AgendaPage() {
 
       <div className="mt-6 space-y-3">
         {!visits?.length && (
-          <p className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+          <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
             Aucune visite planifiée.
           </p>
         )}
         {visits?.map((visit) => (
           <div
             key={visit.id}
-            className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-gray-200 bg-white p-4 text-sm"
+            className="card flex flex-wrap items-center justify-between gap-2 rounded-2xl border border-gray-100 bg-white p-4 text-sm"
           >
             <div>
               <Link

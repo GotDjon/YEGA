@@ -8,23 +8,46 @@ export function StatusTimeline({ statut }: { statut: MissionStatus }) {
   const currentIndex = MISSION_STATUS_ORDER.indexOf(statut);
 
   return (
-    <ol className="flex flex-wrap items-center gap-2 text-xs">
+    <ol className="flex items-start">
       {MISSION_STATUS_ORDER.map((step, index) => {
-        const isDone = index <= currentIndex;
+        const isDone = index < currentIndex;
+        const isCurrent = index === currentIndex;
+        const isLast = index === MISSION_STATUS_ORDER.length - 1;
+
         return (
-          <li key={step} className="flex items-center gap-2">
-            <span
-              className={
-                "rounded-full px-2.5 py-1 font-medium " +
-                (isDone
-                  ? "bg-brand-green text-white"
-                  : "bg-gray-100 text-gray-400")
-              }
-            >
-              {MISSION_STATUS_LABELS[step]}
-            </span>
-            {index < MISSION_STATUS_ORDER.length - 1 && (
-              <span className="text-gray-300">→</span>
+          <li key={step} className={"flex items-center" + (isLast ? "" : " flex-1")}>
+            <div className="flex flex-col items-center">
+              <span
+                className={
+                  "flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold ring-4 " +
+                  (isCurrent
+                    ? "bg-brand-gold text-brand-green-deep ring-brand-gold-light"
+                    : isDone
+                      ? "bg-brand-green text-white ring-brand-green-light"
+                      : "bg-white text-gray-300 ring-gray-100")
+                }
+              >
+                {isDone ? "✓" : ""}
+              </span>
+              <span
+                className={
+                  "mt-1.5 w-16 text-center text-[10px] font-medium leading-tight sm:w-20 " +
+                  (isCurrent
+                    ? "text-brand-gold-dark"
+                    : isDone
+                      ? "text-brand-green-dark"
+                      : "text-gray-400")
+                }
+              >
+                {MISSION_STATUS_LABELS[step]}
+              </span>
+            </div>
+            {!isLast && (
+              <span
+                className={
+                  "-mt-4 h-0.5 flex-1 " + (isDone ? "bg-brand-green" : "bg-gray-100")
+                }
+              />
             )}
           </li>
         );

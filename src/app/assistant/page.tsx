@@ -9,10 +9,10 @@ export default async function AssistantPage() {
   if (profile.role !== "client") redirect("/dashboard");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <SiteHeader profile={profile} />
-      <main className="mx-auto max-w-3xl px-4 py-8">
-        <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <main className="mx-auto max-w-3xl px-6 py-10">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
           Assistant YEGA
         </h1>
         <p className="mt-1 text-sm text-gray-500">

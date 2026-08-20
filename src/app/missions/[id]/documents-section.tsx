@@ -52,7 +52,7 @@ export async function DocumentsSection({
         {documents.map((doc, index) => (
           <li
             key={doc.id}
-            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm"
+            className="rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-sm shadow-sm"
           >
             <div className="flex items-center justify-between">
               <span>{DOCUMENT_TYPE_LABELS[doc.type]}</span>

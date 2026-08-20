@@ -28,7 +28,7 @@ export function NewMissionWizard() {
   const canGoNext = step === 1 ? description.trim().length > 0 : true;
 
   return (
-    <form action={formAction} className="mt-6 rounded-xl border border-gray-200 bg-white p-6">
+    <form action={formAction} className="card mt-6 rounded-2xl border border-gray-100 bg-white p-6">
       <input type="hidden" name="type" value={type} />
       <input type="hidden" name="description" value={description} />
       <input type="hidden" name="ville" value={ville} />
@@ -58,7 +58,7 @@ export function NewMissionWizard() {
           <select
             value={type}
             onChange={(e) => setType(e.target.value as MissionType)}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
           >
             {Object.entries(MISSION_TYPE_LABELS).map(([value, label]) => (
               <option key={value} value={value}>
@@ -79,7 +79,7 @@ export function NewMissionWizard() {
             onChange={(e) => setDescription(e.target.value)}
             rows={4}
             required
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
           />
         </div>
       )}
@@ -102,7 +102,7 @@ export function NewMissionWizard() {
             type="text"
             value={ville}
             onChange={(e) => setVille(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
           />
         </div>
       )}
@@ -117,7 +117,7 @@ export function NewMissionWizard() {
             min="0"
             value={budget}
             onChange={(e) => setBudget(e.target.value)}
-            className="mt-1 w-full rounded-lg border border-gray-300 px-3 py-2 text-sm"
+            className="mt-1 w-full rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
           />
         </div>
       )}
@@ -155,7 +155,7 @@ export function NewMissionWizard() {
           <button
             type="submit"
             disabled={pending}
-            className="rounded-lg bg-brand-green px-5 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark disabled:opacity-60"
+            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
           >
             {pending ? "Création…" : "Valider et créer mon projet"}
           </button>
@@ -164,7 +164,7 @@ export function NewMissionWizard() {
             type="button"
             onClick={() => canGoNext && setStep((s) => Math.min(STEPS.length - 1, s + 1))}
             disabled={!canGoNext}
-            className="rounded-lg bg-brand-green px-5 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark disabled:opacity-50"
+            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-50"
           >
             Suivant
           </button>

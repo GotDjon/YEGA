@@ -1,11 +1,25 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf9f6;
-  --foreground: #17241c;
-  --brand-green: #1f5e3e;
-  --brand-green-dark: #143c28;
+  --background: #faf9f5;
+  --foreground: #14231b;
+
+  /* Vert Émeraude */
+  --brand-green: #0e6b4f;
+  --brand-green-dark: #073a2a;
+  --brand-green-deep: #051f16;
+  --brand-green-light: #e6f2ec;
+
+  /* Or */
   --brand-gold: #c9a227;
+  --brand-gold-light: #f4e9c9;
+  --brand-gold-dark: #9c7c1a;
+
+  --brand-cream: #faf9f5;
+  --brand-ink: #14231b;
+
+  --shadow-card: 0 1px 2px rgba(5, 31, 22, 0.04), 0 8px 24px -12px rgba(5, 31, 22, 0.12);
+  --shadow-card-hover: 0 4px 12px rgba(5, 31, 22, 0.06), 0 16px 32px -12px rgba(5, 31, 22, 0.18);
 }
 
 @theme inline {
@@ -13,7 +27,13 @@
   --color-foreground: var(--foreground);
   --color-brand-green: var(--brand-green);
   --color-brand-green-dark: var(--brand-green-dark);
+  --color-brand-green-deep: var(--brand-green-deep);
+  --color-brand-green-light: var(--brand-green-light);
   --color-brand-gold: var(--brand-gold);
+  --color-brand-gold-light: var(--brand-gold-light);
+  --color-brand-gold-dark: var(--brand-gold-dark);
+  --color-brand-cream: var(--brand-cream);
+  --color-brand-ink: var(--brand-ink);
   --font-sans: var(--font-manrope);
   --font-display: var(--font-fraunces);
 }
@@ -22,4 +42,30 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Filet or fin, utilisé comme séparateur de marque sur les écrans clés. */
+.gold-rule {
+  height: 2px;
+  width: 48px;
+  background: linear-gradient(90deg, var(--brand-gold), var(--brand-gold-light));
+  border-radius: 999px;
+}
+
+/* Fond premium pleine page (login/register) : dégradé émeraude + halo doré discret. */
+.brand-surface {
+  background:
+    radial-gradient(1200px 600px at 15% -10%, rgba(201, 162, 39, 0.16), transparent 60%),
+    radial-gradient(900px 500px at 110% 10%, rgba(201, 162, 39, 0.09), transparent 55%),
+    linear-gradient(160deg, var(--brand-green-deep) 0%, var(--brand-green-dark) 45%, var(--brand-green) 100%);
+}
+
+.card {
+  box-shadow: var(--shadow-card);
+  transition: box-shadow 180ms ease, transform 180ms ease;
+}
+
+.card-interactive:hover {
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-1px);
 }

@@ -60,7 +60,7 @@ export default async function MissionDetailPage({
     <div>
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
             {MISSION_TYPE_LABELS[mission.type]}
             {mission.ville ? ` — ${mission.ville}` : ""}
           </h1>

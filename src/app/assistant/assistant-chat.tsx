@@ -39,7 +39,7 @@ export function AssistantChat() {
   }
 
   return (
-    <div className="mt-6 rounded-xl border border-gray-200 bg-white">
+    <div className="card mt-6 rounded-2xl border border-gray-100 bg-white">
       <div className="max-h-[28rem] min-h-[16rem] overflow-y-auto p-4 space-y-3">
         {messages.length === 0 && (
           <div className="space-y-2">
@@ -89,12 +89,12 @@ export function AssistantChat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Posez votre question…"
-          className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
+          className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
         />
         <button
           type="submit"
           disabled={pending}
-          className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark disabled:opacity-60"
+          className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
         >
           Envoyer
         </button>

@@ -12,9 +12,9 @@ export default async function BackOfficeLayout({
   if (profile.role === "client") redirect("/dashboard");
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <SiteHeader profile={profile} />
-      <main className="mx-auto max-w-5xl px-4 py-8">{children}</main>
+      <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
     </div>
   );
 }

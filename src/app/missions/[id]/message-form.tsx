@@ -24,12 +24,12 @@ export function MessageForm({ missionId }: { missionId: string }) {
         name="contenu"
         required
         placeholder="Écrire un message…"
-        className="flex-1 rounded-lg border border-gray-300 px-3 py-2 text-sm"
+        className="flex-1 rounded-lg border border-gray-200 bg-white px-3 py-2 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
       />
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark disabled:opacity-60"
+        className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
       >
         {pending ? "…" : "Envoyer"}
       </button>

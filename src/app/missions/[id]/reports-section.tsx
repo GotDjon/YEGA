@@ -37,7 +37,7 @@ export async function ReportsSection({
         {reports.map((report, index) => (
           <li
             key={report.id}
-            className="rounded-lg border border-gray-200 bg-white px-4 py-3 text-sm"
+            className="rounded-xl border border-gray-100 bg-white px-4 py-3 text-sm shadow-sm"
           >
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-medium">

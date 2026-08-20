@@ -31,7 +31,7 @@ export default async function BackOfficeMissionsPage() {
     <div>
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
             Missions
           </h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -43,7 +43,7 @@ export default async function BackOfficeMissionsPage() {
         {isStaff && (
           <Link
             href="/back-office/missions/new"
-            className="rounded-lg bg-brand-green px-4 py-2 text-sm font-semibold text-white hover:bg-brand-green-dark"
+            className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md"
           >
             Nouvelle mission
           </Link>
@@ -52,13 +52,13 @@ export default async function BackOfficeMissionsPage() {
 
       <div className="mt-6 space-y-4">
         {!missions?.length && (
-          <p className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+          <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
             Aucune mission pour le moment.
           </p>
         )}
 
         {missions?.map((mission) => (
-          <div key={mission.id} className="rounded-xl border border-gray-200 bg-white p-5">
+          <div key={mission.id} className="card card-interactive rounded-2xl border border-gray-100 bg-white p-6">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-medium text-gray-800">
                 <Link href={`/missions/${mission.id}`} className="hover:text-brand-green hover:underline">
@@ -89,7 +89,7 @@ export default async function BackOfficeMissionsPage() {
                   <select
                     name="agent_id"
                     defaultValue={mission.agent_id ?? ""}
-                    className="rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                    className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
                   >
                     <option value="">Non assigné</option>
                     {agents?.map((agent) => (
@@ -109,7 +109,7 @@ export default async function BackOfficeMissionsPage() {
                   <select
                     name="statut"
                     defaultValue={mission.statut}
-                    className="rounded-lg border border-gray-300 px-2 py-1 text-sm"
+                    className="rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 text-sm shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
                   >
                     {MISSION_STATUS_ORDER.map((status) => (
                       <option key={status} value={status}>

@@ -34,7 +34,7 @@ export async function PaymentsSection({
         {payments?.map((payment) => (
           <li
             key={payment.id}
-            className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm"
+            className="flex items-center justify-between rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-sm shadow-sm"
           >
             <span>
               {payment.montant.toLocaleString("fr-FR")} FCFA

@@ -18,14 +18,14 @@ export function CreateReportForm({ missionId }: { missionId: string }) {
         await formAction(formData);
         formRef.current?.reset();
       }}
-      className="mt-4 space-y-3 rounded-lg border border-dashed border-gray-300 bg-white p-4 text-sm"
+      className="mt-4 space-y-3 rounded-2xl border border-dashed border-brand-gold/30 bg-white p-4 text-sm"
     >
       <input type="hidden" name="mission_id" value={missionId} />
 
       <div className="flex flex-wrap gap-3">
         <div>
           <label className="block text-xs font-medium text-gray-500">Type</label>
-          <select name="type" required className="mt-1 rounded-lg border border-gray-300 px-2 py-1">
+          <select name="type" required className="mt-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15">
             {REPORT_TYPES.map((type) => (
               <option key={type} value={type}>
                 {type}
@@ -35,7 +35,7 @@ export function CreateReportForm({ missionId }: { missionId: string }) {
         </div>
         <div>
           <label className="block text-xs font-medium text-gray-500">Étape</label>
-          <select name="etape" className="mt-1 rounded-lg border border-gray-300 px-2 py-1">
+          <select name="etape" className="mt-1 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15">
             <option value="">—</option>
             {Object.entries(REPORT_ETAPE_LABELS).map(([value, label]) => (
               <option key={value} value={value}>
@@ -52,14 +52,14 @@ export function CreateReportForm({ missionId }: { missionId: string }) {
               step="any"
               name="gps_lat"
               placeholder="lat"
-              className="w-24 rounded-lg border border-gray-300 px-2 py-1"
+              className="w-24 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
             />
             <input
               type="number"
               step="any"
               name="gps_lng"
               placeholder="lng"
-              className="w-24 rounded-lg border border-gray-300 px-2 py-1"
+              className="w-24 rounded-lg border border-gray-200 bg-white px-2.5 py-1.5 shadow-sm transition focus:border-brand-green focus:outline-none focus:ring-2 focus:ring-brand-green/15"
             />
           </div>
         </div>
@@ -82,7 +82,7 @@ export function CreateReportForm({ missionId }: { missionId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-lg bg-brand-green px-4 py-2 font-semibold text-white hover:bg-brand-green-dark disabled:opacity-60"
+        className="rounded-xl bg-brand-green px-4 py-2.5 font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
       >
         {pending ? "Envoi…" : "Ajouter le rapport"}
       </button>

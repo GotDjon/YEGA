@@ -22,10 +22,10 @@ export default async function AidePage() {
     .returns<FaqRow[]>();
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <SiteHeader profile={profile} />
-      <main className="mx-auto max-w-5xl px-4 py-8">
-        <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <main className="mx-auto max-w-6xl px-6 py-10">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
           Centre d&apos;aide
         </h1>
         <p className="mt-1 text-sm text-gray-500">
@@ -35,14 +35,14 @@ export default async function AidePage() {
 
         <div className="mt-6 space-y-3">
           {!faqs?.length && (
-            <p className="rounded-xl border border-dashed border-gray-300 bg-white p-8 text-center text-sm text-gray-500">
+            <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
               Aucune question pour le moment.
             </p>
           )}
           {faqs?.map((faq) => (
             <details
               key={faq.id}
-              className="group rounded-xl border border-gray-200 bg-white p-4"
+              className="card card-interactive group rounded-2xl border border-gray-100 bg-white p-4"
             >
               <summary className="cursor-pointer text-sm font-medium text-gray-800">
                 {faq.question}

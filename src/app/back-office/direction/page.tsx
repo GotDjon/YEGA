@@ -14,9 +14,12 @@ const MISSION_LATE_THRESHOLD_DAYS = 30;
 
 function StatCard({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-5">
-      <p className="text-xs uppercase tracking-wide text-gray-400">{label}</p>
-      <p className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+    <div className="card card-interactive relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-6">
+      <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold to-brand-gold-light" />
+      <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-ink/40">
+        {label}
+      </p>
+      <p className="mt-1.5 font-[family-name:var(--font-display)] text-3xl font-semibold text-brand-green-dark">
         {value}
       </p>
     </div>
@@ -71,7 +74,7 @@ export default async function DirectionDashboardPage() {
 
   return (
     <div>
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Tableau de bord Direction
       </h1>
       <p className="mt-1 text-sm text-gray-500">
@@ -89,7 +92,7 @@ export default async function DirectionDashboardPage() {
       </div>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="card card-interactive rounded-2xl border border-gray-100 bg-white p-6">
           <h2 className="text-sm font-semibold text-gray-700">Répartition par type</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {Object.entries(MISSION_TYPE_LABELS).map(([type, label]) => (
@@ -101,7 +104,7 @@ export default async function DirectionDashboardPage() {
           </ul>
         </div>
 
-        <div className="rounded-xl border border-gray-200 bg-white p-5">
+        <div className="card card-interactive rounded-2xl border border-gray-100 bg-white p-6">
           <h2 className="text-sm font-semibold text-gray-700">Répartition par statut</h2>
           <ul className="mt-3 space-y-2 text-sm">
             {MISSION_STATUS_ORDER.map((status) => (

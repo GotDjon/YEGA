@@ -11,7 +11,7 @@ export default async function NewMissionPage() {
 
   return (
     <div className="max-w-lg">
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Nouvelle mission
       </h1>
       <p className="mt-1 text-sm text-gray-500">

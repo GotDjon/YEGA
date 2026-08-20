@@ -53,7 +53,7 @@ export default async function ClientDetailPage({
 
   return (
     <div>
-      <h1 className="font-[family-name:var(--font-display)] text-2xl font-semibold text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         {client.nom}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
@@ -72,7 +72,7 @@ export default async function ClientDetailPage({
           <Link
             key={mission.id}
             href={`/missions/${mission.id}`}
-            className="block rounded-xl border border-gray-200 bg-white p-4 hover:border-brand-green"
+            className="card card-interactive block rounded-2xl border border-gray-100 bg-white p-4 hover:border-brand-green/40"
           >
             <div className="flex items-center justify-between">
               <span className="font-medium text-gray-800">
@@ -93,9 +93,9 @@ export default async function ClientDetailPage({
       <h2 className="mt-8 font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
         Paiements
       </h2>
-      <div className="mt-3 overflow-hidden rounded-xl border border-gray-200 bg-white">
+      <div className="card mt-3 overflow-hidden rounded-2xl border border-gray-100 bg-white">
         <table className="w-full text-left text-sm">
-          <thead className="bg-gray-50 text-xs uppercase text-gray-500">
+          <thead className="bg-brand-green-light/60 text-[11px] font-semibold uppercase tracking-wide text-brand-green-dark">
             <tr>
               <th className="px-4 py-3">Date</th>
               <th className="px-4 py-3">Montant</th>

@@ -1,10 +1,28 @@
 import Link from "next/link";
 import { logout } from "@/app/(auth)/actions";
 import { createClient } from "@/lib/supabase/server";
+import { Logo } from "@/components/Logo";
 import type { Profile } from "@/lib/supabase/types";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 const BACK_OFFICE_ROLES = ["agent", ...STAFF_ROLES];
+
+const ROLE_LABELS: Record<string, string> = {
+  client: "Client",
+  agent: "Chargé de mission",
+  responsable_technique: "Responsable technique",
+  direction: "Direction",
+  admin: "Administrateur",
+};
+
+function initials(nom: string) {
+  return nom
+    .split(" ")
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("");
+}
 
 export async function SiteHeader({ profile }: { profile: Profile }) {
   const isStaff = STAFF_ROLES.includes(profile.role);
@@ -17,67 +35,119 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
     .eq("user_id", profile.id)
     .eq("lu", false);
 
+  const navLinkClass =
+    "relative py-1 text-[13px] font-medium text-brand-ink/60 transition-colors hover:text-brand-green-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-brand-gold after:transition-all hover:after:w-full";
+
   return (
-    <header className="border-b border-gray-200 bg-white">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-4">
-        <div className="flex items-center gap-6">
-          <span className="font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
-            YEGA
-          </span>
-          <nav className="flex gap-4 text-sm text-gray-600">
-            <Link href="/dashboard" className="hover:text-brand-green">
-              Mes projets
+    <header className="sticky top-0 z-20 border-b border-brand-gold/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-3.5">
+        <Link href="/dashboard" className="shrink-0">
+          <Logo />
+        </Link>
+
+        <nav className="hidden flex-1 items-center gap-5 md:flex">
+          <Link href="/dashboard" className={navLinkClass}>
+            Mes projets
+          </Link>
+          {profile.role === "client" && (
+            <Link href="/assistant" className={navLinkClass}>
+              Assistant IA
             </Link>
-            {profile.role === "client" && (
-              <Link href="/assistant" className="hover:text-brand-green">
-                Assistant
+          )}
+          {hasBackOffice && (
+            <>
+              <Link href="/back-office/missions" className={navLinkClass}>
+                Back-office
               </Link>
-            )}
-            {hasBackOffice && (
-              <>
-                <Link href="/back-office/missions" className="hover:text-brand-green">
-                  Back-office
-                </Link>
-                <Link href="/back-office/agenda" className="hover:text-brand-green">
-                  Agenda
-                </Link>
-              </>
-            )}
-            {isStaff && (
-              <>
-                <Link href="/back-office/clients" className="hover:text-brand-green">
-                  Clients
-                </Link>
-                <Link href="/back-office/direction" className="hover:text-brand-green">
-                  Direction
-                </Link>
-                <Link href="/back-office/partenaires" className="hover:text-brand-green">
-                  Partenaires
-                </Link>
-              </>
-            )}
-            <Link href="/aide" className="hover:text-brand-green">
-              Aide
-            </Link>
-          </nav>
-        </div>
-        <div className="flex items-center gap-4 text-sm text-gray-500">
-          <Link href="/notifications" className="relative hover:text-brand-green">
-            Notifications
+              <Link href="/back-office/agenda" className={navLinkClass}>
+                Agenda
+              </Link>
+            </>
+          )}
+          {isStaff && (
+            <>
+              <Link href="/back-office/clients" className={navLinkClass}>
+                Clients
+              </Link>
+              <Link href="/back-office/direction" className={navLinkClass}>
+                Direction
+              </Link>
+              <Link href="/back-office/partenaires" className={navLinkClass}>
+                Partenaires
+              </Link>
+            </>
+          )}
+          <Link href="/aide" className={navLinkClass}>
+            Aide
+          </Link>
+        </nav>
+
+        <div className="flex items-center gap-4">
+          <Link
+            href="/notifications"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full text-brand-ink/60 transition-colors hover:bg-brand-green-light hover:text-brand-green-dark"
+            aria-label="Notifications"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1.75}
+              className="h-5 w-5"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+              />
+            </svg>
             {!!unreadCount && (
-              <span className="ml-1 rounded-full bg-red-500 px-1.5 py-0.5 text-xs font-semibold text-white">
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-brand-gold px-1 text-[10px] font-semibold text-brand-green-deep ring-2 ring-white">
                 {unreadCount}
               </span>
             )}
           </Link>
-          <span>{profile.nom}</span>
+
+          <div className="hidden items-center gap-2.5 border-l border-gray-200 pl-4 sm:flex">
+            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green-light text-xs font-semibold text-brand-green-dark">
+              {initials(profile.nom)}
+            </span>
+            <span className="flex flex-col leading-tight">
+              <span className="text-sm font-medium text-brand-ink">{profile.nom}</span>
+              <span className="text-[11px] text-brand-ink/50">{ROLE_LABELS[profile.role]}</span>
+            </span>
+          </div>
+
           <form action={logout}>
-            <button type="submit" className="text-brand-green hover:underline">
+            <button
+              type="submit"
+              className="rounded-full border border-brand-green/20 px-3.5 py-1.5 text-xs font-medium text-brand-green-dark transition-colors hover:border-brand-green hover:bg-brand-green-light"
+            >
               Déconnexion
             </button>
           </form>
         </div>
       </div>
+
+      <nav className="flex flex-wrap gap-x-4 gap-y-1 border-t border-gray-100 px-6 py-2 text-[13px] font-medium text-brand-ink/60 md:hidden">
+        <Link href="/dashboard" className="hover:text-brand-green-dark">
+          Mes projets
+        </Link>
+        {profile.role === "client" && (
+          <Link href="/assistant" className="hover:text-brand-green-dark">
+            Assistant IA
+          </Link>
+        )}
+        {hasBackOffice && (
+          <Link href="/back-office/missions" className="hover:text-brand-green-dark">
+            Back-office
+          </Link>
+        )}
+        <Link href="/aide" className="hover:text-brand-green-dark">
+          Aide
+        </Link>
+      </nav>
     </header>
   );
 }
