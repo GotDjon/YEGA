@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server";
-import { DOCUMENT_TYPE_LABELS, type DocumentRow, type DocumentType } from "@/lib/supabase/types";
+import { DOCUMENT_TYPE_LABELS, type DocumentRow, type DocumentType, type Profile } from "@/lib/supabase/types";
 import { UploadDocumentForm } from "./upload-document-form";
+import { SignaturePad } from "./signature-pad";
 
 const CLIENT_DOCUMENT_TYPES: DocumentType[] = ["piece_identite", "titre_foncier"];
 const STAFF_DOCUMENT_TYPES: DocumentType[] = [
@@ -10,6 +11,7 @@ const STAFF_DOCUMENT_TYPES: DocumentType[] = [
   "piece_identite",
   "titre_foncier",
 ];
+const SIGNABLE_TYPES: DocumentType[] = ["contrat", "devis"];
 
 export async function DocumentsSection({
   missionId,
@@ -29,6 +31,14 @@ export async function DocumentsSection({
     ),
   );
 
+  const signerIds = [...new Set(documents.map((d) => d.signe_par).filter((v): v is string => !!v))];
+  const { data: signers } = signerIds.length
+    ? await supabase.from("profiles").select("id, nom").in("id", signerIds).returns<
+        Pick<Profile, "id" | "nom">[]
+      >()
+    : { data: [] };
+  const signerNames = new Map((signers ?? []).map((s) => [s.id, s.nom]));
+
   return (
     <section>
       <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
@@ -42,20 +52,37 @@ export async function DocumentsSection({
         {documents.map((doc, index) => (
           <li
             key={doc.id}
-            className="flex items-center justify-between rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm"
+            className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm"
           >
-            <span>{DOCUMENT_TYPE_LABELS[doc.type]}</span>
-            {links[index].data?.signedUrl ? (
-              <a
-                href={links[index].data.signedUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="text-brand-green hover:underline"
-              >
-                Ouvrir
-              </a>
-            ) : (
-              <span className="text-gray-300">Lien indisponible</span>
+            <div className="flex items-center justify-between">
+              <span>{DOCUMENT_TYPE_LABELS[doc.type]}</span>
+              {links[index].data?.signedUrl ? (
+                <a
+                  href={links[index].data.signedUrl}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="text-brand-green hover:underline"
+                >
+                  Ouvrir
+                </a>
+              ) : (
+                <span className="text-gray-300">Lien indisponible</span>
+              )}
+            </div>
+
+            {SIGNABLE_TYPES.includes(doc.type) && (
+              <div className="mt-2 border-t border-gray-100 pt-2">
+                {doc.signe_le ? (
+                  <p className="text-xs text-green-700">
+                    ✓ Signé par {signerNames.get(doc.signe_par!) ?? "—"} le{" "}
+                    {new Date(doc.signe_le).toLocaleString("fr-FR")}
+                  </p>
+                ) : canUpload ? (
+                  <SignaturePad documentId={doc.id} missionId={missionId} />
+                ) : (
+                  <p className="text-xs text-gray-400">Pas encore signé.</p>
+                )}
+              </div>
             )}
           </li>
         ))}

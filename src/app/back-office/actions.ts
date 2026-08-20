@@ -8,6 +8,7 @@ import {
   MISSION_STATUS_LABELS,
   type MissionStatus,
   type MissionType,
+  type PartnerType,
 } from "@/lib/supabase/types";
 
 export type MissionActionState = { error: string | null };
@@ -153,4 +154,27 @@ export async function updateVisitStatus(formData: FormData) {
 
   await supabase.from("visits").update({ statut }).eq("id", visitId);
   revalidatePath("/back-office/agenda");
+}
+
+// Module 18 — répertoire des partenaires.
+export async function createPartner(
+  _prevState: MissionActionState,
+  formData: FormData,
+): Promise<MissionActionState> {
+  const nom = String(formData.get("nom") ?? "").trim();
+  const type = String(formData.get("type") ?? "") as PartnerType;
+  const contact = String(formData.get("contact") ?? "").trim();
+
+  if (!nom || !type) return { error: "Nom et type sont requis." };
+
+  const { supabase } = await requireStaff();
+  const { error } = await supabase.from("partners").insert({
+    nom,
+    type,
+    contact: contact || null,
+  });
+  if (error) return { error: error.message };
+
+  revalidatePath("/back-office/partenaires");
+  return { error: null };
 }

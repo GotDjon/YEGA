@@ -46,8 +46,14 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
                 <Link href="/back-office/direction" className="hover:text-brand-green">
                   Direction
                 </Link>
+                <Link href="/back-office/partenaires" className="hover:text-brand-green">
+                  Partenaires
+                </Link>
               </>
             )}
+            <Link href="/aide" className="hover:text-brand-green">
+              Aide
+            </Link>
           </nav>
         </div>
         <div className="flex items-center gap-4 text-sm text-gray-500">

@@ -240,3 +240,32 @@ export async function sendMessage(
   revalidatePath(`/missions/${missionId}`);
   return { error: null };
 }
+
+// Module 17 — signature électronique d'un document (contrat, devis) directement dans la
+// plateforme, pour éviter les allers-retours papier/PDF scanné (section 4 du cahier des
+// charges).
+export async function signDocument(formData: FormData) {
+  const documentId = String(formData.get("document_id") ?? "");
+  const missionId = String(formData.get("mission_id") ?? "");
+  const signatureDataUrl = String(formData.get("signature") ?? "");
+  if (!documentId || !missionId || !signatureDataUrl.startsWith("data:image/png;base64,")) {
+    return;
+  }
+
+  const { supabase, userId } = await requireUser();
+  const base64 = signatureDataUrl.split(",")[1];
+  const bytes = Buffer.from(base64, "base64");
+  const path = `${missionId}/signatures/${documentId}-${crypto.randomUUID()}.png`;
+
+  const { error: uploadError } = await supabase.storage
+    .from("documents")
+    .upload(path, bytes, { contentType: "image/png" });
+  if (uploadError) return;
+
+  await supabase
+    .from("documents")
+    .update({ signature_url: path, signe_par: userId, signe_le: new Date().toISOString() })
+    .eq("id", documentId);
+
+  revalidatePath(`/missions/${missionId}`);
+}

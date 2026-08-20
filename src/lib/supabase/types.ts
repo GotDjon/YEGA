@@ -89,6 +89,9 @@ export interface DocumentRow {
   type: DocumentType;
   url: string;
   date: string;
+  signature_url: string | null;
+  signe_par: string | null;
+  signe_le: string | null;
 }
 
 export type ReportType = "photo" | "video" | "pdf" | "checklist";
@@ -181,5 +184,31 @@ export interface NotificationRow {
   contenu: string;
   lien: string | null;
   lu: boolean;
+  date_creation: string;
+}
+
+export type PartnerType = "architecte" | "notaire" | "banque" | "artisan" | "entreprise";
+
+export const PARTNER_TYPE_LABELS: Record<PartnerType, string> = {
+  architecte: "Architecte",
+  notaire: "Notaire",
+  banque: "Banque",
+  artisan: "Artisan",
+  entreprise: "Entreprise",
+};
+
+export interface PartnerRow {
+  id: string;
+  nom: string;
+  type: PartnerType;
+  contact: string | null;
+  note_moyenne: number | null;
+}
+
+export interface FaqRow {
+  id: string;
+  question: string;
+  reponse: string;
+  ordre: number;
   date_creation: string;
 }
