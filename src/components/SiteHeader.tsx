@@ -36,16 +36,16 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
     .eq("lu", false);
 
   const navLinkClass =
-    "relative py-1 text-[13px] font-medium text-brand-ink/60 transition-colors hover:text-brand-green-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-brand-gold after:transition-all hover:after:w-full";
+    "relative py-1 text-sm font-semibold text-brand-ink/70 transition-colors hover:text-brand-green-dark after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-brand-gold after:transition-all hover:after:w-full";
 
   return (
     <header className="sticky top-0 z-20 border-b border-brand-gold/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-6 px-6 py-3.5">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
         <Link href="/dashboard" className="shrink-0">
           <Logo />
         </Link>
 
-        <nav className="hidden flex-1 items-center gap-5 md:flex">
+        <nav className="hidden flex-1 items-center gap-8 md:flex">
           <Link href="/dashboard" className={navLinkClass}>
             Mes projets
           </Link>
@@ -85,7 +85,7 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
         <div className="flex items-center gap-4">
           <Link
             href="/notifications"
-            className="relative flex h-9 w-9 items-center justify-center rounded-full text-brand-ink/60 transition-colors hover:bg-brand-green-light hover:text-brand-green-dark"
+            className="relative flex h-9 w-9 items-center justify-center rounded-full text-brand-gold-dark transition-colors hover:bg-brand-gold-light hover:text-brand-gold-dark"
             aria-label="Notifications"
           >
             <svg
@@ -130,7 +130,7 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
         </div>
       </div>
 
-      <nav className="flex flex-wrap gap-x-4 gap-y-1 border-t border-gray-100 px-6 py-2 text-[13px] font-medium text-brand-ink/60 md:hidden">
+      <nav className="flex flex-wrap gap-x-6 gap-y-1.5 border-t border-gray-100 px-6 py-2.5 text-sm font-semibold text-brand-ink/70 md:hidden">
         <Link href="/dashboard" className="hover:text-brand-green-dark">
           Mes projets
         </Link>

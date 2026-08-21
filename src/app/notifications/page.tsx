@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { SiteHeader } from "@/components/SiteHeader";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import type { NotificationRow } from "@/lib/supabase/types";
 import { markNotificationRead } from "./actions";
 
@@ -20,8 +21,9 @@ export default async function NotificationsPage() {
     .returns<NotificationRow[]>();
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="app-shell min-h-screen">
       <SiteHeader profile={profile} />
+      <AwarenessTip role={profile.role} />
       <main className="mx-auto max-w-6xl px-6 py-10">
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
           Notifications
