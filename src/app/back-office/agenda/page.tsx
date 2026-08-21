@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { updateVisitStatus } from "../actions";
 import {
   MISSION_TYPE_LABELS,
@@ -41,6 +42,7 @@ export default async function AgendaPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile?.role} pageKey="back-office-agenda" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Agenda
       </h1>

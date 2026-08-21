@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import type { Mission, PaymentRow, Profile } from "@/lib/supabase/types";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
@@ -39,6 +40,7 @@ export default async function ClientsPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile.role} pageKey="back-office-clients" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Clients
       </h1>

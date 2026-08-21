@@ -1,4 +1,5 @@
 import { getCurrentProfile } from "@/lib/supabase/session";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { NewMissionWizard } from "./new-mission-wizard";
 
 export default async function NouveauProjetPage() {
@@ -6,6 +7,7 @@ export default async function NouveauProjetPage() {
 
   return (
     <div className="max-w-xl">
+      <AwarenessTip role={profile?.role} pageKey="dashboard-nouveau-projet" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Déposer un nouveau projet
       </h1>

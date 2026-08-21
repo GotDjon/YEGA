@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { MISSION_TYPE_LABELS, type Mission } from "@/lib/supabase/types";
 
 export default async function ClientDashboardPage() {
@@ -17,6 +18,7 @@ export default async function ClientDashboardPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile?.role} pageKey="dashboard" />
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold-dark">

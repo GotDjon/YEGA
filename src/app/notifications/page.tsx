@@ -23,8 +23,8 @@ export default async function NotificationsPage() {
   return (
     <div className="app-shell min-h-screen">
       <SiteHeader profile={profile} />
-      <AwarenessTip role={profile.role} />
       <main className="mx-auto max-w-6xl px-6 py-10">
+        <AwarenessTip role={profile.role} pageKey="notifications" />
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
           Notifications
         </h1>

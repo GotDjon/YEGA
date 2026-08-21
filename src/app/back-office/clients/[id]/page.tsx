@@ -3,6 +3,7 @@ import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import {
   MISSION_TYPE_LABELS,
   PAYMENT_METHOD_LABELS,
@@ -53,6 +54,7 @@ export default async function ClientDetailPage({
 
   return (
     <div>
+      <AwarenessTip role={profile.role} pageKey="back-office-clients-detail" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         {client.nom}
       </h1>

@@ -1,7 +1,6 @@
 import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { SiteHeader } from "@/components/SiteHeader";
-import { AwarenessTip } from "@/components/AwarenessTip";
 
 export default async function DashboardLayout({
   children,
@@ -14,7 +13,6 @@ export default async function DashboardLayout({
   return (
     <div className="app-shell min-h-screen">
       <SiteHeader profile={profile} />
-      <AwarenessTip role={profile.role} />
       <main className="mx-auto max-w-6xl px-6 py-10">{children}</main>
     </div>
   );

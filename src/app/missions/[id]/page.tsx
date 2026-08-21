@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { DocumentsSection } from "./documents-section";
 import { ReportsSection } from "./reports-section";
 import { GallerySection } from "./gallery-section";
@@ -58,6 +59,7 @@ export default async function MissionDetailPage({
 
   return (
     <div>
+      <AwarenessTip role={profile?.role} pageKey="mission-detail" />
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">

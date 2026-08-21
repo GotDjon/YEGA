@@ -1,6 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import {
   MISSION_STATUS_LABELS,
   MISSION_STATUS_ORDER,
@@ -74,6 +75,7 @@ export default async function DirectionDashboardPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile.role} pageKey="back-office-direction" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Tableau de bord Direction
       </h1>

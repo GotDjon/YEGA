@@ -2,6 +2,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { PARTNER_TYPE_LABELS, type PartnerRow } from "@/lib/supabase/types";
 import { NewPartnerForm } from "./new-partner-form";
 
@@ -20,6 +21,7 @@ export default async function PartenairesPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile.role} pageKey="back-office-partenaires" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
         Partenaires
       </h1>

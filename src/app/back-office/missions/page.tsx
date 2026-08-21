@@ -2,6 +2,7 @@ import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
+import { AwarenessTip } from "@/components/AwarenessTip";
 import { assignMission, updateMissionStatus } from "../actions";
 import {
   MISSION_STATUS_LABELS,
@@ -29,6 +30,7 @@ export default async function BackOfficeMissionsPage() {
 
   return (
     <div>
+      <AwarenessTip role={profile?.role} pageKey="back-office-missions" />
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">

@@ -15,19 +15,30 @@ const TIPS_CLIENT = [
   "Vous pouvez déposer un nouveau projet en quelques minutes depuis « Mes projets » → « Déposer un projet ».",
 ];
 
-export function AwarenessTip({ role }: { role?: string }) {
+function hashKey(key: string) {
+  let hash = 0;
+  for (let i = 0; i < key.length; i++) {
+    hash = (hash * 31 + key.charCodeAt(i)) | 0;
+  }
+  return Math.abs(hash);
+}
+
+// `pageKey` doit être unique par page pour garantir un message différent d'une page à l'autre ;
+// le tirage aléatoire par-dessus assure une variation supplémentaire à chaque rafraîchissement.
+export function AwarenessTip({ role, pageKey }: { role?: string; pageKey: string }) {
   const tips = role === "client" ? [...TIPS_COMMUNS, ...TIPS_CLIENT] : TIPS_COMMUNS;
-  // eslint-disable-next-line react-hooks/purity -- Server Component évalué une fois par requête : on veut un tirage différent à chaque navigation, pas de mémoïsation.
-  const tip = tips[Math.floor(Math.random() * tips.length)];
+  // eslint-disable-next-line react-hooks/purity -- Server Component évalué une fois par requête : on veut un tirage différent à chaque rendu, pas de mémoïsation.
+  const offset = Math.floor(Math.random() * tips.length);
+  const tip = tips[(hashKey(pageKey) + offset) % tips.length];
 
   return (
-    <div className="mx-auto max-w-6xl px-6 pt-5">
-      <div className="flex items-start gap-3 rounded-xl border border-brand-gold/25 bg-white/80 px-4 py-3 text-[13px] leading-relaxed text-brand-green-dark shadow-sm backdrop-blur-sm">
-        <span aria-hidden className="mt-0.5 shrink-0 text-brand-gold-dark">
-          ✦
-        </span>
-        <p>{tip}</p>
-      </div>
+    <div className="mb-6 flex items-center gap-3.5 rounded-2xl bg-brand-green px-5 py-4 shadow-md sm:px-6">
+      <span aria-hidden className="shrink-0 text-xl text-brand-gold-light">
+        ✦
+      </span>
+      <p className="text-[15px] font-semibold leading-snug text-brand-gold-light sm:text-base">
+        {tip}
+      </p>
     </div>
   );
 }
