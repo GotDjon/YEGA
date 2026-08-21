@@ -25,7 +25,7 @@ export default async function NotificationsPage() {
       <SiteHeader profile={profile} />
       <main className="mx-auto max-w-6xl px-6 py-10">
         <AwarenessTip role={profile.role} pageKey="notifications" />
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
           Notifications
         </h1>
 

@@ -41,7 +41,7 @@ export default async function ClientsPage() {
   return (
     <div>
       <AwarenessTip role={profile.role} pageKey="back-office-clients" />
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
         Clients
       </h1>
       <p className="mt-1 text-sm text-gray-500">
@@ -50,7 +50,7 @@ export default async function ClientsPage() {
 
       <div className="card mt-6 overflow-hidden rounded-2xl border border-gray-100 bg-white">
         <table className="w-full text-left text-sm">
-          <thead className="bg-brand-green-light/60 text-[11px] font-semibold uppercase tracking-wide text-brand-green-dark">
+          <thead className="bg-brand-green-light/60 text-[11px] font-semibold uppercase tracking-wide text-heading">
             <tr>
               <th className="px-4 py-3">Client</th>
               <th className="px-4 py-3">Pays</th>

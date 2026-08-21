@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+/* Bascule de thème pilotée par la classe .dark sur <html> (voir ThemeToggle.tsx),
+   plutôt que par la préférence système seule. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --background: #faf9f5;
   --foreground: #14231b;
@@ -11,15 +15,42 @@
   --brand-green-light: #e6f2ec;
 
   /* Or */
-  --brand-gold: #c9a227;
-  --brand-gold-light: #f4e9c9;
-  --brand-gold-dark: #9c7c1a;
+  --brand-gold: #d4a017;
+  --brand-gold-light: #f2dfa0;
+  --brand-gold-dark: #a9760d;
+  --brand-gold-on-dark: #e8c34c;
 
   --brand-cream: #faf9f5;
   --brand-ink: #14231b;
 
+  /* Couleur des titres : distincte de --brand-green-dark (qui reste aussi un fond de bouton)
+     pour pouvoir l'inverser en thème sombre sans casser les boutons. */
+  --heading: var(--brand-green-dark);
+
   --shadow-card: 0 1px 2px rgba(5, 31, 22, 0.04), 0 8px 24px -12px rgba(5, 31, 22, 0.12);
   --shadow-card-hover: 0 4px 12px rgba(5, 31, 22, 0.06), 0 16px 32px -12px rgba(5, 31, 22, 0.18);
+}
+
+:root.dark {
+  --background: #0b1512;
+  --foreground: #eaf1ec;
+  --brand-ink: #d7e3dc;
+  --brand-green-light: #1d2f27;
+  --heading: #eef6f0;
+
+  --color-white: #16221d;
+  --color-gray-50: #1a2620;
+  --color-gray-100: #212f28;
+  --color-gray-200: #2b3b33;
+  --color-gray-300: #445248;
+  --color-gray-400: #8a9990;
+  --color-gray-500: #a9b6ae;
+  --color-gray-600: #bcc7c0;
+  --color-gray-700: #d2dbd5;
+  --color-gray-800: #e6ece8;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.3), 0 8px 24px -12px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 4px 12px rgba(0, 0, 0, 0.35), 0 16px 32px -12px rgba(0, 0, 0, 0.6);
 }
 
 @theme inline {
@@ -32,8 +63,10 @@
   --color-brand-gold: var(--brand-gold);
   --color-brand-gold-light: var(--brand-gold-light);
   --color-brand-gold-dark: var(--brand-gold-dark);
+  --color-brand-gold-on-dark: var(--brand-gold-on-dark);
   --color-brand-cream: var(--brand-cream);
   --color-brand-ink: var(--brand-ink);
+  --color-heading: var(--heading);
   --font-sans: var(--font-manrope);
   --font-display: var(--font-fraunces);
 }
@@ -42,6 +75,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+  transition: background-color 150ms ease, color 150ms ease;
 }
 
 /* Filet or fin, utilisé comme séparateur de marque sur les écrans clés. */
@@ -72,9 +106,19 @@ body {
   background-size: auto, auto, 240px 240px;
 }
 
+:root.dark .app-shell {
+  background-color: #0b1512;
+  background-image:
+    radial-gradient(1400px 550px at 12% -15%, rgba(212, 160, 23, 0.12), transparent 55%),
+    linear-gradient(165deg, #0e1a16 0%, #0b1512 45%, #08110e 100%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240' viewBox='0 0 240 240'%3E%3Cg fill='none' stroke='%23d4a017' stroke-opacity='0.10' stroke-width='2.5' stroke-linecap='round'%3E%3Cg transform='translate(24,18) rotate(12)'%3E%3Cpath d='M0 92 Q10 46 0 0'/%3E%3Cpath d='M0 80 L-18 65 M0 80 L18 65'/%3E%3Cpath d='M0 62 L-16 50 M0 62 L16 50'/%3E%3Cpath d='M0 44 L-13 34 M0 44 L13 34'/%3E%3Cpath d='M0 26 L-9 18 M0 26 L9 18'/%3E%3Cpath d='M0 10 L-5 5 M0 10 L5 5'/%3E%3C/g%3E%3Cg transform='translate(176,120) rotate(-22)'%3E%3Cpath d='M0 92 Q10 46 0 0'/%3E%3Cpath d='M0 80 L-18 65 M0 80 L18 65'/%3E%3Cpath d='M0 62 L-16 50 M0 62 L16 50'/%3E%3Cpath d='M0 44 L-13 34 M0 44 L13 34'/%3E%3Cpath d='M0 26 L-9 18 M0 26 L9 18'/%3E%3Cpath d='M0 10 L-5 5 M0 10 L5 5'/%3E%3C/g%3E%3Cg transform='translate(100,202) rotate(158)'%3E%3Cpath d='M0 60 Q7 30 0 0'/%3E%3Cpath d='M0 52 L-12 42 M0 52 L12 42'/%3E%3Cpath d='M0 38 L-10 30 M0 38 L10 30'/%3E%3Cpath d='M0 24 L-7 18 M0 24 L7 18'/%3E%3Cpath d='M0 10 L-4 6 M0 10 L4 6'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: no-repeat, no-repeat, repeat;
+  background-size: auto, auto, 240px 240px;
+}
+
 .card {
   box-shadow: var(--shadow-card);
-  transition: box-shadow 180ms ease, transform 180ms ease;
+  transition: box-shadow 180ms ease, transform 180ms ease, background-color 150ms ease;
 }
 
 .card-interactive:hover {

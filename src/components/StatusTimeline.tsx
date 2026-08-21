@@ -25,7 +25,7 @@ export function StatusTimeline({ statut }: { statut: MissionStatus }) {
                   (isCurrent
                     ? "bg-brand-gold text-brand-green-deep ring-brand-gold-light"
                     : isDone
-                      ? "bg-brand-green text-white ring-brand-green-light"
+                      ? "bg-brand-green text-[#fff] ring-brand-green-light"
                       : "bg-white text-gray-300 ring-gray-100")
                 }
               >
@@ -37,7 +37,7 @@ export function StatusTimeline({ statut }: { statut: MissionStatus }) {
                   (isCurrent
                     ? "text-brand-gold-dark"
                     : isDone
-                      ? "text-brand-green-dark"
+                      ? "text-heading"
                       : "text-gray-400")
                 }
               >

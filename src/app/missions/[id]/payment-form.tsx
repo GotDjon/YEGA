@@ -27,7 +27,7 @@ export function PaymentForm({ missionId }: { missionId: string }) {
       <button
         type="submit"
         disabled={pending}
-        className="rounded-xl bg-brand-green px-4 py-2.5 font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
+        className="rounded-xl bg-brand-green px-4 py-2.5 font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
       >
         {pending ? "Redirection…" : "Payer (Mobile Money / carte)"}
       </button>

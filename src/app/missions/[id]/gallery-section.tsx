@@ -17,7 +17,7 @@ export async function GallerySection({ reports }: { reports: ReportRow[] }) {
 
   return (
     <section>
-      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
+      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-heading">
         Galerie d&apos;évolution
       </h2>
       <p className="mt-1 text-sm text-gray-500">

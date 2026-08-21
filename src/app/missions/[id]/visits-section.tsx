@@ -14,7 +14,7 @@ export async function VisitsSection({ missionId }: { missionId: string }) {
 
   return (
     <section>
-      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
+      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-heading">
         Visites planifiées
       </h2>
       <ul className="mt-3 space-y-2">

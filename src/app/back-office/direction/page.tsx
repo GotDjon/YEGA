@@ -20,7 +20,7 @@ function StatCard({ label, value }: { label: string; value: string | number }) {
       <p className="text-[11px] font-semibold uppercase tracking-[0.12em] text-brand-ink/40">
         {label}
       </p>
-      <p className="mt-1.5 font-[family-name:var(--font-display)] text-3xl font-semibold text-brand-green-dark">
+      <p className="mt-1.5 font-[family-name:var(--font-display)] text-3xl font-semibold text-heading">
         {value}
       </p>
     </div>
@@ -76,7 +76,7 @@ export default async function DirectionDashboardPage() {
   return (
     <div>
       <AwarenessTip role={profile.role} pageKey="back-office-direction" />
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
         Tableau de bord Direction
       </h1>
       <p className="mt-1 text-sm text-gray-500">

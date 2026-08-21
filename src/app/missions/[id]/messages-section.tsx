@@ -27,7 +27,7 @@ export async function MessagesSection({
 
   return (
     <section>
-      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-brand-green-dark">
+      <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-heading">
         Messagerie
       </h2>
 

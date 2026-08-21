@@ -14,7 +14,7 @@ export default async function AssistantPage() {
       <SiteHeader profile={profile} />
       <main className="mx-auto max-w-3xl px-6 py-10">
         <AwarenessTip role={profile.role} pageKey="assistant" />
-        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+        <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
           Assistant YEGA
         </h1>
         <p className="mt-1 text-sm text-gray-500">

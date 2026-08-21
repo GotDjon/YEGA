@@ -15,7 +15,7 @@ export default async function NewMissionPage() {
   return (
     <div className="max-w-lg">
       <AwarenessTip role={profile?.role} pageKey="back-office-missions-new" />
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
         Nouvelle mission
       </h1>
       <p className="mt-1 text-sm text-gray-500">

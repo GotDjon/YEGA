@@ -8,7 +8,7 @@ export default async function NouveauProjetPage() {
   return (
     <div className="max-w-xl">
       <AwarenessTip role={profile?.role} pageKey="dashboard-nouveau-projet" />
-      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+      <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
         Déposer un nouveau projet
       </h1>
       <p className="mt-1 text-sm text-gray-500">

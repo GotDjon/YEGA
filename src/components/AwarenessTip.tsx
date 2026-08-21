@@ -33,10 +33,10 @@ export function AwarenessTip({ role, pageKey }: { role?: string; pageKey: string
 
   return (
     <div className="mb-6 flex items-center gap-3.5 rounded-2xl bg-brand-green px-5 py-4 shadow-md sm:px-6">
-      <span aria-hidden className="shrink-0 text-xl text-brand-gold-light">
+      <span aria-hidden className="shrink-0 text-xl text-brand-gold-on-dark">
         ✦
       </span>
-      <p className="text-[15px] font-semibold leading-snug text-brand-gold-light sm:text-base">
+      <p className="text-[15px] font-semibold leading-snug text-brand-gold-on-dark sm:text-base">
         {tip}
       </p>
     </div>

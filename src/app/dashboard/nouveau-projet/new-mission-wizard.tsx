@@ -41,7 +41,7 @@ export function NewMissionWizard() {
             className={
               "rounded-full px-2.5 py-1 " +
               (index === step
-                ? "bg-brand-green text-white"
+                ? "bg-brand-green text-[#fff]"
                 : index < step
                   ? "bg-brand-green/10 text-brand-green"
                   : "bg-gray-100")
@@ -155,7 +155,7 @@ export function NewMissionWizard() {
           <button
             type="submit"
             disabled={pending}
-            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
+            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-60"
           >
             {pending ? "Création…" : "Valider et créer mon projet"}
           </button>
@@ -164,7 +164,7 @@ export function NewMissionWizard() {
             type="button"
             onClick={() => canGoNext && setStep((s) => Math.min(STEPS.length - 1, s + 1))}
             disabled={!canGoNext}
-            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-50"
+            className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md disabled:opacity-50"
           >
             Suivant
           </button>

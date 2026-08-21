@@ -33,7 +33,7 @@ export default async function BackOfficeMissionsPage() {
       <AwarenessTip role={profile?.role} pageKey="back-office-missions" />
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-brand-green-dark">
+          <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
             Missions
           </h1>
           <p className="mt-1 text-sm text-gray-500">
@@ -45,7 +45,7 @@ export default async function BackOfficeMissionsPage() {
         {isStaff && (
           <Link
             href="/back-office/missions/new"
-            className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-white shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md"
+            className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md"
           >
             Nouvelle mission
           </Link>
