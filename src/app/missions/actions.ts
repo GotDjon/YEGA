@@ -6,7 +6,10 @@ import { headers } from "next/headers";
 import { createClient } from "@/lib/supabase/server";
 import { initCinetPayPayment } from "@/lib/cinetpay";
 import { notify } from "@/lib/notifications";
+import { logAction } from "@/lib/audit";
 import type {
+  AnomalyGravite,
+  AnomalyStatut,
   DocumentType,
   MissionType,
   ReportEtape,
@@ -206,6 +209,7 @@ export async function validateReport(formData: FormData) {
   if (mission?.client_id) {
     await notify(mission.client_id, "Un nouveau rapport est disponible pour votre mission.", `/missions/${missionId}`);
   }
+  await logAction(userId, "validate_report", "report", reportId);
 
   revalidatePath(`/missions/${missionId}`);
 }
@@ -266,6 +270,84 @@ export async function signDocument(formData: FormData) {
     .from("documents")
     .update({ signature_url: path, signe_par: userId, signe_le: new Date().toISOString() })
     .eq("id", documentId);
+  await logAction(userId, "sign_document", "document", documentId);
+
+  revalidatePath(`/missions/${missionId}`);
+}
+
+// Registre des anomalies (module 23) — signalée par l'agent assigné ou le staff.
+export async function createAnomaly(
+  _prevState: FormActionState,
+  formData: FormData,
+): Promise<FormActionState> {
+  const missionId = String(formData.get("mission_id") ?? "");
+  const titre = String(formData.get("titre") ?? "").trim();
+  const description = String(formData.get("description") ?? "").trim();
+  const gravite = String(formData.get("gravite") ?? "moyenne") as AnomalyGravite;
+
+  if (!missionId || !titre) {
+    return { error: "Le titre de l'anomalie est requis." };
+  }
+
+  const { supabase, userId } = await requireUser();
+  const { data, error } = await supabase
+    .from("anomalies")
+    .insert({
+      mission_id: missionId,
+      titre,
+      description: description || null,
+      gravite,
+      signale_par: userId,
+    })
+    .select("id")
+    .single();
+  if (error || !data) return { error: error?.message ?? "Impossible de créer l'anomalie." };
+
+  const { data: mission } = await supabase
+    .from("missions")
+    .select("client_id")
+    .eq("id", missionId)
+    .single();
+  if (mission?.client_id) {
+    await notify(
+      mission.client_id,
+      `Anomalie signalée sur votre mission : « ${titre} ».`,
+      `/missions/${missionId}`,
+      gravite === "elevee" ? "critique" : "attention",
+    );
+  }
+  await logAction(userId, "create_anomaly", "anomaly", data.id, titre);
+
+  revalidatePath(`/missions/${missionId}`);
+  return { error: null };
+}
+
+export async function updateAnomalyStatus(formData: FormData) {
+  const anomalyId = String(formData.get("anomaly_id") ?? "");
+  const missionId = String(formData.get("mission_id") ?? "");
+  const statut = String(formData.get("statut") ?? "") as AnomalyStatut;
+  if (!anomalyId || !missionId || !statut) return;
+
+  const { supabase, userId } = await requireUser();
+  await supabase
+    .from("anomalies")
+    .update({
+      statut,
+      date_resolution: statut === "resolue" ? new Date().toISOString() : null,
+    })
+    .eq("id", anomalyId);
+
+  if (statut === "resolue") {
+    const { data: mission } = await supabase
+      .from("missions")
+      .select("client_id")
+      .eq("id", missionId)
+      .single();
+    if (mission?.client_id) {
+      await notify(mission.client_id, "Une anomalie a été résolue sur votre mission.", `/missions/${missionId}`);
+    }
+  }
+  await logAction(userId, "update_anomaly_status", "anomaly", anomalyId, statut);
 
   revalidatePath(`/missions/${missionId}`);
 }

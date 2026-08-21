@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { notify } from "@/lib/notifications";
+import { logAction } from "@/lib/audit";
 import {
   MISSION_STATUS_LABELS,
   type MissionStatus,
@@ -69,15 +70,21 @@ export async function assignMission(formData: FormData) {
   const missionId = String(formData.get("mission_id") ?? "");
   const agentId = String(formData.get("agent_id") ?? "");
 
-  const { supabase } = await requireStaff();
+  const { supabase, userId } = await requireStaff();
   await supabase
     .from("missions")
     .update({ agent_id: agentId || null })
     .eq("id", missionId);
 
   if (agentId) {
-    await notify(agentId, "Vous avez été affecté à une mission.", `/missions/${missionId}`);
+    await notify(
+      agentId,
+      "Vous avez été affecté à une mission.",
+      `/missions/${missionId}`,
+      "action",
+    );
   }
+  await logAction(userId, "assign_mission", "mission", missionId, agentId || undefined);
 
   revalidatePath("/back-office/missions");
   revalidatePath(`/missions/${missionId}`);
@@ -87,7 +94,7 @@ export async function updateMissionStatus(formData: FormData) {
   const missionId = String(formData.get("mission_id") ?? "");
   const statut = String(formData.get("statut") ?? "") as MissionStatus;
 
-  const { supabase } = await requireStaff();
+  const { supabase, userId } = await requireStaff();
   await supabase.from("missions").update({ statut }).eq("id", missionId);
 
   const { data: mission } = await supabase
@@ -102,9 +109,54 @@ export async function updateMissionStatus(formData: FormData) {
       `/missions/${missionId}`,
     );
   }
+  await logAction(userId, "update_mission_status", "mission", missionId, statut);
 
   revalidatePath("/back-office/missions");
   revalidatePath(`/missions/${missionId}`);
+}
+
+// Module 24 — révision de budget (staff uniquement) : trace l'écart entre budget initial et
+// budget actuel, avec motif, pour que le client comprenne toujours pourquoi le montant a changé.
+export async function createBudgetRevision(
+  _prevState: MissionActionState,
+  formData: FormData,
+): Promise<MissionActionState> {
+  const missionId = String(formData.get("mission_id") ?? "");
+  const montantDeltaRaw = String(formData.get("montant_delta") ?? "").trim();
+  const motif = String(formData.get("motif") ?? "").trim();
+  const montantDelta = Number(montantDeltaRaw);
+
+  if (!missionId || !montantDeltaRaw || !Number.isFinite(montantDelta) || montantDelta === 0) {
+    return { error: "Indiquez un écart de budget non nul (positif ou négatif)." };
+  }
+
+  const { supabase, userId } = await requireStaff();
+  const { error } = await supabase.from("budget_revisions").insert({
+    mission_id: missionId,
+    montant_delta: montantDelta,
+    motif: motif || null,
+    created_by: userId,
+  });
+  if (error) return { error: error.message };
+
+  const { data: mission } = await supabase
+    .from("missions")
+    .select("client_id")
+    .eq("id", missionId)
+    .single();
+  if (mission?.client_id) {
+    const sign = montantDelta > 0 ? "+" : "";
+    await notify(
+      mission.client_id,
+      `Révision de budget : ${sign}${montantDelta.toLocaleString("fr-FR")} FCFA${motif ? ` (${motif})` : ""}.`,
+      `/missions/${missionId}`,
+      montantDelta > 0 ? "attention" : "info",
+    );
+  }
+  await logAction(userId, "budget_revision", "mission", missionId, `${montantDelta} — ${motif}`);
+
+  revalidatePath(`/missions/${missionId}`);
+  return { error: null };
 }
 
 // Module 11 — agenda des visites terrain.
@@ -135,6 +187,7 @@ export async function createVisit(
     agentId,
     `Une visite terrain vous a été planifiée le ${new Date(planifieLe).toLocaleString("fr-FR")}.`,
     `/missions/${missionId}`,
+    "action",
   );
 
   revalidatePath("/back-office/agenda");

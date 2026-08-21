@@ -76,6 +76,9 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
               <Link href="/back-office/partenaires" className={navLinkClass}>
                 Partenaires
               </Link>
+              <Link href="/back-office/audit" className={navLinkClass}>
+                Audit
+              </Link>
             </>
           )}
           <Link href="/aide" className={navLinkClass}>

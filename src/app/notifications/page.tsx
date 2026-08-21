@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AwarenessTip } from "@/components/AwarenessTip";
+import { SeverityBadge } from "@/components/SeverityBadge";
 import type { NotificationRow } from "@/lib/supabase/types";
 import { markNotificationRead } from "./actions";
 
@@ -45,23 +46,26 @@ export default async function NotificationsPage() {
               }
             >
               <input type="hidden" name="notification_id" value={notification.id} />
-              <div>
-                {notification.lien ? (
-                  <Link
-                    href={notification.lien}
-                    className="text-gray-700 hover:text-brand-green hover:underline"
-                  >
-                    {notification.contenu}
-                  </Link>
-                ) : (
-                  <span className="text-gray-700">{notification.contenu}</span>
-                )}
-                <p className="mt-0.5 text-xs text-gray-400">
-                  {new Date(notification.date_creation).toLocaleString("fr-FR")}
-                </p>
+              <div className="flex items-start gap-3">
+                <SeverityBadge severite={notification.severite} />
+                <div>
+                  {notification.lien ? (
+                    <Link
+                      href={notification.lien}
+                      className="text-gray-700 hover:text-brand-green hover:underline"
+                    >
+                      {notification.contenu}
+                    </Link>
+                  ) : (
+                    <span className="text-gray-700">{notification.contenu}</span>
+                  )}
+                  <p className="mt-0.5 text-xs text-gray-400">
+                    {new Date(notification.date_creation).toLocaleString("fr-FR")}
+                  </p>
+                </div>
               </div>
               {!notification.lu && (
-                <button type="submit" className="text-xs text-brand-green hover:underline">
+                <button type="submit" className="shrink-0 text-xs text-brand-green hover:underline">
                   Marquer comme lu
                 </button>
               )}

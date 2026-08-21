@@ -178,13 +178,81 @@ export interface VisitWithRelations extends VisitRow {
   agent: Pick<Profile, "id" | "nom"> | null;
 }
 
+export type NotificationSeverite = "critique" | "attention" | "action" | "info";
+
+export const NOTIFICATION_SEVERITE_LABELS: Record<NotificationSeverite, string> = {
+  critique: "Critique",
+  attention: "Attention",
+  action: "Action requise",
+  info: "Information",
+};
+
 export interface NotificationRow {
   id: string;
   user_id: string;
   contenu: string;
   lien: string | null;
   lu: boolean;
+  severite: NotificationSeverite;
   date_creation: string;
+}
+
+export type AnomalyGravite = "faible" | "moyenne" | "elevee";
+export type AnomalyStatut = "ouverte" | "en_correction" | "a_verifier" | "resolue";
+
+export const ANOMALY_GRAVITE_LABELS: Record<AnomalyGravite, string> = {
+  faible: "Faible",
+  moyenne: "Moyenne",
+  elevee: "Élevée",
+};
+
+export const ANOMALY_STATUT_LABELS: Record<AnomalyStatut, string> = {
+  ouverte: "Ouverte",
+  en_correction: "En correction",
+  a_verifier: "À vérifier",
+  resolue: "Résolue",
+};
+
+export const ANOMALY_STATUT_ORDER: AnomalyStatut[] = [
+  "ouverte",
+  "en_correction",
+  "a_verifier",
+  "resolue",
+];
+
+export interface AnomalyRow {
+  id: string;
+  mission_id: string;
+  titre: string;
+  description: string | null;
+  gravite: AnomalyGravite;
+  statut: AnomalyStatut;
+  signale_par: string | null;
+  date_creation: string;
+  date_resolution: string | null;
+}
+
+export interface BudgetRevisionRow {
+  id: string;
+  mission_id: string;
+  montant_delta: number;
+  motif: string | null;
+  created_by: string | null;
+  date_creation: string;
+}
+
+export interface AuditLogRow {
+  id: string;
+  actor_id: string | null;
+  action: string;
+  entity_type: string;
+  entity_id: string | null;
+  details: string | null;
+  date_creation: string;
+}
+
+export interface AuditLogWithActor extends AuditLogRow {
+  actor: Pick<Profile, "id" | "nom"> | null;
 }
 
 export type PartnerType = "architecte" | "notaire" | "banque" | "artisan" | "entreprise";

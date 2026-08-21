@@ -3,18 +3,29 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
 import { AwarenessTip } from "@/components/AwarenessTip";
-import { MISSION_TYPE_LABELS, type Mission } from "@/lib/supabase/types";
+import { SeverityBadge } from "@/components/SeverityBadge";
+import { MISSION_TYPE_LABELS, type Mission, type NotificationRow } from "@/lib/supabase/types";
 
 export default async function ClientDashboardPage() {
   const profile = await getCurrentProfile();
   const supabase = await createClient();
 
-  const { data: missions } = await supabase
-    .from("missions")
-    .select("*")
-    .eq("client_id", profile!.id)
-    .order("date_creation", { ascending: false })
-    .returns<Mission[]>();
+  const [{ data: missions }, { data: actionsRequises }] = await Promise.all([
+    supabase
+      .from("missions")
+      .select("*")
+      .eq("client_id", profile!.id)
+      .order("date_creation", { ascending: false })
+      .returns<Mission[]>(),
+    supabase
+      .from("notifications")
+      .select("*")
+      .eq("user_id", profile!.id)
+      .eq("lu", false)
+      .in("severite", ["critique", "action"])
+      .order("date_creation", { ascending: false })
+      .returns<NotificationRow[]>(),
+  ]);
 
   return (
     <div>
@@ -38,6 +49,30 @@ export default async function ClientDashboardPage() {
           + Déposer un projet
         </Link>
       </div>
+
+      {!!actionsRequises?.length && (
+        <div className="mt-6 rounded-2xl border border-brand-gold/30 bg-white p-5 shadow-sm">
+          <h2 className="text-sm font-semibold text-heading">
+            {actionsRequises.length} action{actionsRequises.length > 1 ? "s" : ""} requiert
+            {actionsRequises.length > 1 ? "ent" : ""} votre attention
+          </h2>
+          <ul className="mt-3 space-y-2">
+            {actionsRequises.map((notification) => (
+              <li key={notification.id} className="flex items-center justify-between gap-3 text-sm">
+                <span className="text-gray-600">{notification.contenu}</span>
+                <div className="flex shrink-0 items-center gap-2">
+                  <SeverityBadge severite={notification.severite} />
+                  {notification.lien && (
+                    <Link href={notification.lien} className="text-brand-green hover:underline">
+                      Voir
+                    </Link>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       <div className="mt-8 space-y-4">
         {!missions?.length && (

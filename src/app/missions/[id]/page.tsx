@@ -7,10 +7,14 @@ import { DocumentsSection } from "./documents-section";
 import { ReportsSection } from "./reports-section";
 import { GallerySection } from "./gallery-section";
 import { PaymentsSection } from "./payments-section";
+import { BudgetSection } from "./budget-section";
+import { AnomaliesSection } from "./anomalies-section";
 import { MessagesSection } from "./messages-section";
 import { VisitsSection } from "./visits-section";
 import {
   MISSION_TYPE_LABELS,
+  type AnomalyRow,
+  type BudgetRevisionRow,
   type DocumentRow,
   type MissionWithRelations,
   type ReportRow,
@@ -42,20 +46,33 @@ export default async function MissionDetailPage({
   const isAgent = mission.agent_id === profile!.id;
   const isClient = mission.client_id === profile!.id;
 
-  const [{ data: documents }, { data: reports }] = await Promise.all([
-    supabase
-      .from("documents")
-      .select("*")
-      .eq("mission_id", id)
-      .order("date", { ascending: false })
-      .returns<DocumentRow[]>(),
-    supabase
-      .from("reports")
-      .select("*")
-      .eq("mission_id", id)
-      .order("date_upload", { ascending: false })
-      .returns<ReportRow[]>(),
-  ]);
+  const [{ data: documents }, { data: reports }, { data: anomalies }, { data: budgetRevisions }] =
+    await Promise.all([
+      supabase
+        .from("documents")
+        .select("*")
+        .eq("mission_id", id)
+        .order("date", { ascending: false })
+        .returns<DocumentRow[]>(),
+      supabase
+        .from("reports")
+        .select("*")
+        .eq("mission_id", id)
+        .order("date_upload", { ascending: false })
+        .returns<ReportRow[]>(),
+      supabase
+        .from("anomalies")
+        .select("*")
+        .eq("mission_id", id)
+        .order("date_creation", { ascending: false })
+        .returns<AnomalyRow[]>(),
+      supabase
+        .from("budget_revisions")
+        .select("*")
+        .eq("mission_id", id)
+        .order("date_creation", { ascending: true })
+        .returns<BudgetRevisionRow[]>(),
+    ]);
 
   return (
     <div>
@@ -71,11 +88,6 @@ export default async function MissionDetailPage({
             {mission.agent ? ` · Agent : ${mission.agent.nom}` : ""}
           </p>
         </div>
-        {mission.budget_estime && (
-          <span className="text-sm text-gray-500">
-            Budget estimé : {mission.budget_estime.toLocaleString("fr-FR")} FCFA
-          </span>
-        )}
       </div>
 
       {mission.description && (
@@ -102,6 +114,20 @@ export default async function MissionDetailPage({
         />
 
         <GallerySection reports={reports ?? []} />
+
+        <AnomaliesSection
+          missionId={mission.id}
+          anomalies={anomalies ?? []}
+          canReport={isAgent || isStaff}
+          canManage={isAgent || isStaff}
+        />
+
+        <BudgetSection
+          missionId={mission.id}
+          budgetEstime={mission.budget_estime}
+          revisions={budgetRevisions ?? []}
+          isStaff={isStaff}
+        />
 
         <PaymentsSection missionId={mission.id} isClient={isClient} />
 
