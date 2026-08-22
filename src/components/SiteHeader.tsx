@@ -45,7 +45,7 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
   const mobileNavLinkClass = "text-heading/85 hover:text-heading";
 
   return (
-    <header className="sticky top-0 z-20 border-b border-brand-gold/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+    <header className="sticky top-0 z-20 border-b border-brand-gold/20 bg-white">
       <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:gap-8 sm:px-6 sm:py-4">
         <Link href="/dashboard" className="min-w-0 shrink-0">
           <Logo />

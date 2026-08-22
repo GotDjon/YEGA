@@ -1,15 +1,15 @@
 "use client";
 
-import { useRouter } from "next/navigation";
 import { LOCALE_COOKIE, type Locale } from "@/lib/i18n-dict";
 
 export function LanguageToggle({ locale, label }: { locale: Locale; label: string }) {
-  const router = useRouter();
-
   function toggle() {
     const next: Locale = locale === "en" ? "fr" : "en";
     document.cookie = `${LOCALE_COOKIE}=${next}; path=/; max-age=31536000`;
-    router.refresh();
+    // Rechargement complet plutôt que router.refresh() : plus fiable dans les navigateurs
+    // intégrés restrictifs (WhatsApp, Instagram…) où l'écriture de cookie ou le refresh
+    // côté client peuvent silencieusement échouer.
+    window.location.reload();
   }
 
   return (
