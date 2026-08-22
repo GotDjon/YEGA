@@ -1,3 +1,5 @@
+import type { Locale } from "@/lib/i18n-dict";
+
 export type UserRole =
   | "client"
   | "agent"
@@ -36,11 +38,35 @@ export const MISSION_STATUS_LABELS: Record<MissionStatus, string> = {
   cloturee: "Clôturée",
 };
 
-export const MISSION_TYPE_LABELS: Record<MissionType, string> = {
-  home: "Home",
-  project: "Project",
-  moments: "Moments",
+const MISSION_STATUS_LABELS_EN: Record<MissionStatus, string> = {
+  recue: "Received",
+  analysee: "Reviewed",
+  proposee: "Proposed",
+  validee: "Approved",
+  en_execution: "In progress",
+  controlee: "Inspected",
+  cloturee: "Closed",
 };
+
+export function getMissionStatusLabels(locale: Locale) {
+  return locale === "en" ? MISSION_STATUS_LABELS_EN : MISSION_STATUS_LABELS;
+}
+
+export const MISSION_TYPE_LABELS: Record<MissionType, string> = {
+  home: "Immobilier",
+  project: "Démarches administratives",
+  moments: "Événements",
+};
+
+const MISSION_TYPE_LABELS_EN: Record<MissionType, string> = {
+  home: "Real estate",
+  project: "Administrative procedures",
+  moments: "Events",
+};
+
+export function getMissionTypeLabels(locale: Locale) {
+  return locale === "en" ? MISSION_TYPE_LABELS_EN : MISSION_TYPE_LABELS;
+}
 
 export interface Profile {
   id: string;
@@ -82,6 +108,18 @@ export const DOCUMENT_TYPE_LABELS: Record<DocumentType, string> = {
   piece_identite: "Pièce d'identité",
   titre_foncier: "Titre foncier",
 };
+
+const DOCUMENT_TYPE_LABELS_EN: Record<DocumentType, string> = {
+  devis: "Quote",
+  facture: "Invoice",
+  contrat: "Contract",
+  piece_identite: "ID document",
+  titre_foncier: "Land title",
+};
+
+export function getDocumentTypeLabels(locale: Locale) {
+  return locale === "en" ? DOCUMENT_TYPE_LABELS_EN : DOCUMENT_TYPE_LABELS;
+}
 
 export interface DocumentRow {
   id: string;
@@ -127,12 +165,35 @@ export const PAYMENT_METHOD_LABELS: Record<PaymentMethod, string> = {
   virement: "Virement",
 };
 
+const PAYMENT_METHOD_LABELS_EN: Record<PaymentMethod, string> = {
+  momo: "MTN MoMo",
+  orange: "Orange Money",
+  carte: "Card",
+  paypal: "PayPal",
+  virement: "Bank transfer",
+};
+
+export function getPaymentMethodLabels(locale: Locale) {
+  return locale === "en" ? PAYMENT_METHOD_LABELS_EN : PAYMENT_METHOD_LABELS;
+}
+
 export const PAYMENT_STATUS_LABELS: Record<PaymentStatus, string> = {
   en_attente: "En attente",
   accepte: "Accepté",
   refuse: "Refusé",
   annule: "Annulé",
 };
+
+const PAYMENT_STATUS_LABELS_EN: Record<PaymentStatus, string> = {
+  en_attente: "Pending",
+  accepte: "Accepted",
+  refuse: "Refused",
+  annule: "Cancelled",
+};
+
+export function getPaymentStatusLabels(locale: Locale) {
+  return locale === "en" ? PAYMENT_STATUS_LABELS_EN : PAYMENT_STATUS_LABELS;
+}
 
 export interface PaymentRow {
   id: string;
@@ -162,6 +223,16 @@ export const VISIT_STATUS_LABELS: Record<VisitStatus, string> = {
   annulee: "Annulée",
 };
 
+const VISIT_STATUS_LABELS_EN: Record<VisitStatus, string> = {
+  planifiee: "Scheduled",
+  terminee: "Completed",
+  annulee: "Cancelled",
+};
+
+export function getVisitStatusLabels(locale: Locale) {
+  return locale === "en" ? VISIT_STATUS_LABELS_EN : VISIT_STATUS_LABELS;
+}
+
 export interface VisitRow {
   id: string;
   mission_id: string;
@@ -187,6 +258,17 @@ export const NOTIFICATION_SEVERITE_LABELS: Record<NotificationSeverite, string> 
   info: "Information",
 };
 
+const NOTIFICATION_SEVERITE_LABELS_EN: Record<NotificationSeverite, string> = {
+  critique: "Critical",
+  attention: "Attention",
+  action: "Action required",
+  info: "Information",
+};
+
+export function getNotificationSeveriteLabels(locale: Locale) {
+  return locale === "en" ? NOTIFICATION_SEVERITE_LABELS_EN : NOTIFICATION_SEVERITE_LABELS;
+}
+
 export interface NotificationRow {
   id: string;
   user_id: string;
@@ -206,12 +288,33 @@ export const ANOMALY_GRAVITE_LABELS: Record<AnomalyGravite, string> = {
   elevee: "Élevée",
 };
 
+const ANOMALY_GRAVITE_LABELS_EN: Record<AnomalyGravite, string> = {
+  faible: "Low",
+  moyenne: "Medium",
+  elevee: "High",
+};
+
+export function getAnomalyGraviteLabels(locale: Locale) {
+  return locale === "en" ? ANOMALY_GRAVITE_LABELS_EN : ANOMALY_GRAVITE_LABELS;
+}
+
 export const ANOMALY_STATUT_LABELS: Record<AnomalyStatut, string> = {
   ouverte: "Ouverte",
   en_correction: "En correction",
   a_verifier: "À vérifier",
   resolue: "Résolue",
 };
+
+const ANOMALY_STATUT_LABELS_EN: Record<AnomalyStatut, string> = {
+  ouverte: "Open",
+  en_correction: "Being fixed",
+  a_verifier: "To verify",
+  resolue: "Resolved",
+};
+
+export function getAnomalyStatutLabels(locale: Locale) {
+  return locale === "en" ? ANOMALY_STATUT_LABELS_EN : ANOMALY_STATUT_LABELS;
+}
 
 export const ANOMALY_STATUT_ORDER: AnomalyStatut[] = [
   "ouverte",
@@ -264,6 +367,18 @@ export const PARTNER_TYPE_LABELS: Record<PartnerType, string> = {
   artisan: "Artisan",
   entreprise: "Entreprise",
 };
+
+const PARTNER_TYPE_LABELS_EN: Record<PartnerType, string> = {
+  architecte: "Architect",
+  notaire: "Notary",
+  banque: "Bank",
+  artisan: "Tradesperson",
+  entreprise: "Company",
+};
+
+export function getPartnerTypeLabels(locale: Locale) {
+  return locale === "en" ? PARTNER_TYPE_LABELS_EN : PARTNER_TYPE_LABELS;
+}
 
 export interface PartnerRow {
   id: string;

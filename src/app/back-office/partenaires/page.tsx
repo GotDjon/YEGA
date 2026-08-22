@@ -3,7 +3,8 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { AwarenessTip } from "@/components/AwarenessTip";
-import { PARTNER_TYPE_LABELS, type PartnerRow } from "@/lib/supabase/types";
+import { getPartnerTypeLabels, type PartnerRow } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 import { NewPartnerForm } from "./new-partner-form";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
@@ -12,6 +13,9 @@ export default async function PartenairesPage() {
   const profile = await getCurrentProfile();
   if (!profile || !STAFF_ROLES.includes(profile.role)) redirect("/back-office/missions");
 
+  const locale = await getLocale();
+  const t = UI[locale];
+  const partnerTypeLabels = getPartnerTypeLabels(locale);
   const supabase = await createClient();
   const { data: partners } = await supabase
     .from("partners")
@@ -23,12 +27,9 @@ export default async function PartenairesPage() {
     <div>
       <AwarenessTip role={profile.role} pageKey="back-office-partenaires" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-        Partenaires
+        {t.partenaires_titre}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Répertoire des architectes, notaires, banques, artisans et entreprises partenaires
-        (module 18).
-      </p>
+      <p className="mt-1 text-sm text-gray-500">{t.partenaires_sous_titre}</p>
 
       <NewPartnerForm />
 
@@ -53,7 +54,7 @@ export default async function PartenairesPage() {
             {partners?.map((partner) => (
               <tr key={partner.id} className="border-t border-gray-100">
                 <td className="px-4 py-3 font-medium text-gray-800">{partner.nom}</td>
-                <td className="px-4 py-3 text-gray-500">{PARTNER_TYPE_LABELS[partner.type]}</td>
+                <td className="px-4 py-3 text-gray-500">{partnerTypeLabels[partner.type]}</td>
                 <td className="px-4 py-3 text-gray-500">{partner.contact ?? "—"}</td>
                 <td className="px-4 py-3 text-gray-500">
                   {partner.note_moyenne ? `${partner.note_moyenne}/5` : "—"}

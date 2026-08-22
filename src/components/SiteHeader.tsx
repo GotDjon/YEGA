@@ -3,17 +3,19 @@ import { logout } from "@/app/(auth)/actions";
 import { createClient } from "@/lib/supabase/server";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { LanguageToggle } from "@/components/LanguageToggle";
+import { getLocale, UI } from "@/lib/i18n";
 import type { Profile } from "@/lib/supabase/types";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 const BACK_OFFICE_ROLES = ["agent", ...STAFF_ROLES];
 
-const ROLE_LABELS: Record<string, string> = {
-  client: "Client",
-  agent: "Chargé de mission",
-  responsable_technique: "Responsable technique",
-  direction: "Direction",
-  admin: "Administrateur",
+const ROLE_LABELS: Record<string, { fr: string; en: string }> = {
+  client: { fr: "Client", en: "Client" },
+  agent: { fr: "Chargé de mission", en: "Field agent" },
+  responsable_technique: { fr: "Responsable technique", en: "Technical lead" },
+  direction: { fr: "Direction", en: "Management" },
+  admin: { fr: "Administrateur", en: "Admin" },
 };
 
 function initials(nom: string) {
@@ -28,6 +30,8 @@ function initials(nom: string) {
 export async function SiteHeader({ profile }: { profile: Profile }) {
   const isStaff = STAFF_ROLES.includes(profile.role);
   const hasBackOffice = BACK_OFFICE_ROLES.includes(profile.role);
+  const locale = await getLocale();
+  const t = UI[locale];
 
   const supabase = await createClient();
   const { count: unreadCount } = await supabase
@@ -48,51 +52,52 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
 
         <nav className="hidden flex-1 items-center gap-8 md:flex">
           <Link href="/dashboard" className={navLinkClass}>
-            Mes projets
+            {t.nav_mes_projets}
           </Link>
           {profile.role === "client" && (
             <Link href="/assistant" className={navLinkClass}>
-              Assistant IA
+              {t.nav_assistant}
             </Link>
           )}
           {hasBackOffice && (
             <>
               <Link href="/back-office/missions" className={navLinkClass}>
-                Back-office
+                {t.nav_back_office}
               </Link>
               <Link href="/back-office/agenda" className={navLinkClass}>
-                Agenda
+                {t.nav_agenda}
               </Link>
             </>
           )}
           {isStaff && (
             <>
               <Link href="/back-office/clients" className={navLinkClass}>
-                Clients
+                {t.nav_clients}
               </Link>
               <Link href="/back-office/direction" className={navLinkClass}>
-                Direction
+                {t.nav_direction}
               </Link>
               <Link href="/back-office/partenaires" className={navLinkClass}>
-                Partenaires
+                {t.nav_partenaires}
               </Link>
               <Link href="/back-office/audit" className={navLinkClass}>
-                Audit
+                {t.nav_audit}
               </Link>
             </>
           )}
           <Link href="/aide" className={navLinkClass}>
-            Aide
+            {t.nav_aide}
           </Link>
         </nav>
 
         <div className="flex items-center gap-3">
-          <ThemeToggle />
+          <LanguageToggle locale={locale} label={t.changer_langue} />
+          <ThemeToggle label={t.changer_theme} />
 
           <Link
             href="/notifications"
             className="relative flex h-9 w-9 items-center justify-center rounded-full text-brand-gold transition-colors hover:bg-brand-gold-light dark:hover:bg-[#fff]/10"
-            aria-label="Notifications"
+            aria-label={t.notifications}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
               <path
@@ -114,7 +119,9 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
             </span>
             <span className="flex flex-col leading-tight">
               <span className="text-sm font-medium text-brand-ink">{profile.nom}</span>
-              <span className="text-[11px] text-brand-ink/50">{ROLE_LABELS[profile.role]}</span>
+              <span className="text-[11px] text-brand-ink/50">
+                {ROLE_LABELS[profile.role]?.[locale] ?? profile.role}
+              </span>
             </span>
           </div>
 
@@ -123,7 +130,7 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
               type="submit"
               className="rounded-full border border-brand-green/20 px-3.5 py-1.5 text-xs font-medium text-heading transition-colors hover:border-brand-green hover:bg-brand-green-light"
             >
-              Déconnexion
+              {t.deconnexion}
             </button>
           </form>
         </div>
@@ -131,20 +138,20 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
 
       <nav className="flex flex-wrap gap-x-6 gap-y-1.5 border-t border-gray-100 px-6 py-2.5 text-sm font-bold text-heading/85 md:hidden">
         <Link href="/dashboard" className="hover:text-heading">
-          Mes projets
+          {t.nav_mes_projets}
         </Link>
         {profile.role === "client" && (
           <Link href="/assistant" className="hover:text-heading">
-            Assistant IA
+            {t.nav_assistant}
           </Link>
         )}
         {hasBackOffice && (
           <Link href="/back-office/missions" className="hover:text-heading">
-            Back-office
+            {t.nav_back_office}
           </Link>
         )}
         <Link href="/aide" className="hover:text-heading">
-          Aide
+          {t.nav_aide}
         </Link>
       </nav>
     </header>

@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
-import { DOCUMENT_TYPE_LABELS, type DocumentRow, type DocumentType, type Profile } from "@/lib/supabase/types";
+import { getDocumentTypeLabels, type DocumentRow, type DocumentType, type Profile } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 import { UploadDocumentForm } from "./upload-document-form";
 import { SignaturePad } from "./signature-pad";
 
@@ -24,6 +25,8 @@ export async function DocumentsSection({
   canUpload: boolean;
   isStaff: boolean;
 }) {
+  const locale = await getLocale();
+  const documentTypeLabels = getDocumentTypeLabels(locale);
   const supabase = await createClient();
   const links = await Promise.all(
     documents.map((doc) =>
@@ -55,7 +58,7 @@ export async function DocumentsSection({
             className="rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-sm shadow-sm"
           >
             <div className="flex items-center justify-between">
-              <span>{DOCUMENT_TYPE_LABELS[doc.type]}</span>
+              <span>{documentTypeLabels[doc.type]}</span>
               {links[index].data?.signedUrl ? (
                 <a
                   href={links[index].data.signedUrl}

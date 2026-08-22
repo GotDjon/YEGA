@@ -59,8 +59,10 @@ export default async function ClientDetailPage({
         {client.nom}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
-        {client.telephone ?? "—"} · {client.pays ?? "—"} · client depuis{" "}
-        {new Date(client.date_creation).toLocaleDateString("fr-FR")}
+        {[client.telephone, client.pays]
+          .filter(Boolean)
+          .concat(`client depuis ${new Date(client.date_creation).toLocaleDateString("fr-FR")}`)
+          .join(" · ")}
       </p>
 
       <h2 className="mt-8 font-[family-name:var(--font-display)] text-lg font-semibold text-heading">

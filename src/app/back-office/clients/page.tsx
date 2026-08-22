@@ -4,6 +4,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import type { Mission, PaymentRow, Profile } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 
@@ -11,6 +12,7 @@ export default async function ClientsPage() {
   const profile = await getCurrentProfile();
   if (!profile || !STAFF_ROLES.includes(profile.role)) redirect("/back-office/missions");
 
+  const t = UI[await getLocale()];
   const supabase = await createClient();
 
   const [{ data: clients }, { data: missions }, { data: payments }] = await Promise.all([
@@ -42,11 +44,9 @@ export default async function ClientsPage() {
     <div>
       <AwarenessTip role={profile.role} pageKey="back-office-clients" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-        Clients
+        {t.clients_titre}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Fiches clients — historique des missions et paiements (module 13).
-      </p>
+      <p className="mt-1 text-sm text-gray-500">{t.clients_sous_titre}</p>
 
       <div className="card mt-6 overflow-hidden rounded-2xl border border-gray-100 bg-white">
         <table className="w-full text-left text-sm">

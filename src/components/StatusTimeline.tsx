@@ -1,11 +1,13 @@
 import {
-  MISSION_STATUS_LABELS,
+  getMissionStatusLabels,
   MISSION_STATUS_ORDER,
   type MissionStatus,
 } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 
-export function StatusTimeline({ statut }: { statut: MissionStatus }) {
+export async function StatusTimeline({ statut }: { statut: MissionStatus }) {
   const currentIndex = MISSION_STATUS_ORDER.indexOf(statut);
+  const labels = getMissionStatusLabels(await getLocale());
 
   return (
     <ol className="flex items-start">
@@ -41,7 +43,7 @@ export function StatusTimeline({ statut }: { statut: MissionStatus }) {
                       : "text-gray-400")
                 }
               >
-                {MISSION_STATUS_LABELS[step]}
+                {labels[step]}
               </span>
             </div>
             {!isLast && (

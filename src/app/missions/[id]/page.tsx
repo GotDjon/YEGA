@@ -12,13 +12,14 @@ import { AnomaliesSection } from "./anomalies-section";
 import { MessagesSection } from "./messages-section";
 import { VisitsSection } from "./visits-section";
 import {
-  MISSION_TYPE_LABELS,
+  getMissionTypeLabels,
   type AnomalyRow,
   type BudgetRevisionRow,
   type DocumentRow,
   type MissionWithRelations,
   type ReportRow,
 } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 
@@ -29,6 +30,8 @@ export default async function MissionDetailPage({
 }) {
   const { id } = await params;
   const profile = await getCurrentProfile();
+  const locale = await getLocale();
+  const missionTypeLabels = getMissionTypeLabels(locale);
   const supabase = await createClient();
 
   const { data: mission } = await supabase
@@ -80,7 +83,7 @@ export default async function MissionDetailPage({
       <div className="flex flex-wrap items-center justify-between gap-2">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-            {MISSION_TYPE_LABELS[mission.type]}
+            {missionTypeLabels[mission.type]}
             {mission.ville ? ` — ${mission.ville}` : ""}
           </h1>
           <p className="mt-1 text-sm text-gray-500">

@@ -4,12 +4,13 @@ import { getCurrentProfile } from "@/lib/supabase/session";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import { updateVisitStatus } from "../actions";
 import {
-  MISSION_TYPE_LABELS,
-  VISIT_STATUS_LABELS,
+  getMissionTypeLabels,
+  getVisitStatusLabels,
   type Mission,
   type Profile,
   type VisitWithRelations,
 } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 import { NewVisitForm } from "./new-visit-form";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
@@ -17,6 +18,10 @@ const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 export default async function AgendaPage() {
   const profile = await getCurrentProfile();
   const isStaff = STAFF_ROLES.includes(profile!.role);
+  const locale = await getLocale();
+  const t = UI[locale];
+  const missionTypeLabels = getMissionTypeLabels(locale);
+  const visitStatusLabels = getVisitStatusLabels(locale);
   const supabase = await createClient();
 
   const { data: visits } = await supabase
@@ -44,19 +49,17 @@ export default async function AgendaPage() {
     <div>
       <AwarenessTip role={profile?.role} pageKey="back-office-agenda" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-        Agenda
+        {t.agenda_titre}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
-        {isStaff
-          ? "Planning des visites terrain (module 11)."
-          : "Vos visites terrain planifiées."}
+        {isStaff ? t.agenda_staff : t.agenda_client}
       </p>
 
       {isStaff && (
         <NewVisitForm
           missions={(missions ?? []).map((m) => ({
             id: m.id,
-            label: `${MISSION_TYPE_LABELS[m.type]}${m.ville ? ` — ${m.ville}` : ""}`,
+            label: `${missionTypeLabels[m.type]}${m.ville ? ` — ${m.ville}` : ""}`,
           }))}
           agents={agents ?? []}
         />
@@ -65,7 +68,7 @@ export default async function AgendaPage() {
       <div className="mt-6 space-y-3">
         {!visits?.length && (
           <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
-            Aucune visite planifiée.
+            {t.agenda_aucune_visite}
           </p>
         )}
         {visits?.map((visit) => (
@@ -78,7 +81,7 @@ export default async function AgendaPage() {
                 href={`/missions/${visit.mission_id}`}
                 className="font-medium text-gray-800 hover:text-brand-green hover:underline"
               >
-                {visit.mission ? MISSION_TYPE_LABELS[visit.mission.type] : "Mission"}
+                {visit.mission ? missionTypeLabels[visit.mission.type] : "Mission"}
                 {visit.mission?.ville ? ` — ${visit.mission.ville}` : ""}
               </Link>
               <p className="text-gray-500">
@@ -113,7 +116,7 @@ export default async function AgendaPage() {
                     : "rounded-full bg-red-100 px-2 py-0.5 text-xs text-red-700"
                 }
               >
-                {VISIT_STATUS_LABELS[visit.statut]}
+                {visitStatusLabels[visit.statut]}
               </span>
             )}
           </div>

@@ -3,13 +3,14 @@ import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import {
-  MISSION_STATUS_LABELS,
+  getMissionStatusLabels,
+  getMissionTypeLabels,
   MISSION_STATUS_ORDER,
-  MISSION_TYPE_LABELS,
   type Mission,
   type MissionType,
   type PaymentRow,
 } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 
 const MISSION_LATE_THRESHOLD_DAYS = 30;
 
@@ -33,6 +34,10 @@ export default async function DirectionDashboardPage() {
     redirect("/back-office/missions");
   }
 
+  const locale = await getLocale();
+  const t = UI[locale];
+  const missionTypeLabels = getMissionTypeLabels(locale);
+  const missionStatusLabels = getMissionStatusLabels(locale);
   const supabase = await createClient();
 
   const [{ data: missions }, { data: payments }, { count: clientCount }] = await Promise.all([
@@ -77,27 +82,27 @@ export default async function DirectionDashboardPage() {
     <div>
       <AwarenessTip role={profile.role} pageKey="back-office-direction" />
       <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-        Tableau de bord Direction
+        {t.direction_titre}
       </h1>
-      <p className="mt-1 text-sm text-gray-500">
-        Indicateurs stratégiques (modules 14 et 19).
-      </p>
+      <p className="mt-1 text-sm text-gray-500">{t.direction_sous_titre}</p>
 
       <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-        <StatCard label="Clients" value={clientCount ?? 0} />
-        <StatCard label="Missions actives" value={missionsActives.length} />
-        <StatCard label="Missions en retard" value={missionsEnRetard.length} />
+        <StatCard label={t.clients_titre} value={clientCount ?? 0} />
+        <StatCard label={locale === "en" ? "Active missions" : "Missions actives"} value={missionsActives.length} />
+        <StatCard label={locale === "en" ? "Late missions" : "Missions en retard"} value={missionsEnRetard.length} />
         <StatCard
-          label="Chiffre d'affaires"
+          label={locale === "en" ? "Revenue" : "Chiffre d'affaires"}
           value={`${chiffreAffaires.toLocaleString("fr-FR")} FCFA`}
         />
       </div>
 
       <div className="mt-8 grid gap-6 sm:grid-cols-2">
         <div className="card card-interactive rounded-2xl border border-gray-100 bg-white p-6">
-          <h2 className="text-sm font-semibold text-gray-700">Répartition par type</h2>
+          <h2 className="text-sm font-semibold text-gray-700">
+            {locale === "en" ? "By type" : "Répartition par type"}
+          </h2>
           <ul className="mt-3 space-y-2 text-sm">
-            {Object.entries(MISSION_TYPE_LABELS).map(([type, label]) => (
+            {Object.entries(missionTypeLabels).map(([type, label]) => (
               <li key={type} className="flex justify-between text-gray-600">
                 <span>{label}</span>
                 <span className="font-medium">{parType[type as MissionType] ?? 0}</span>
@@ -107,11 +112,13 @@ export default async function DirectionDashboardPage() {
         </div>
 
         <div className="card card-interactive rounded-2xl border border-gray-100 bg-white p-6">
-          <h2 className="text-sm font-semibold text-gray-700">Répartition par statut</h2>
+          <h2 className="text-sm font-semibold text-gray-700">
+            {locale === "en" ? "By status" : "Répartition par statut"}
+          </h2>
           <ul className="mt-3 space-y-2 text-sm">
             {MISSION_STATUS_ORDER.map((status) => (
               <li key={status} className="flex justify-between text-gray-600">
-                <span>{MISSION_STATUS_LABELS[status]}</span>
+                <span>{missionStatusLabels[status]}</span>
                 <span className="font-medium">{parStatut[status] ?? 0}</span>
               </li>
             ))}

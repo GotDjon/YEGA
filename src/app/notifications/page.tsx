@@ -6,12 +6,14 @@ import { SiteHeader } from "@/components/SiteHeader";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import { SeverityBadge } from "@/components/SeverityBadge";
 import type { NotificationRow } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 import { markNotificationRead } from "./actions";
 
 export default async function NotificationsPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
 
+  const t = UI[await getLocale()];
   const supabase = await createClient();
 
   const { data: notifications } = await supabase
@@ -27,13 +29,13 @@ export default async function NotificationsPage() {
       <main className="mx-auto max-w-6xl px-6 py-10">
         <AwarenessTip role={profile.role} pageKey="notifications" />
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-          Notifications
+          {t.notifications_titre}
         </h1>
 
         <div className="mt-6 space-y-2">
           {!notifications?.length && (
             <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
-              Aucune notification.
+              {t.notifications_aucune}
             </p>
           )}
           {notifications?.map((notification) => (
@@ -66,7 +68,7 @@ export default async function NotificationsPage() {
               </div>
               {!notification.lu && (
                 <button type="submit" className="shrink-0 text-xs text-brand-green hover:underline">
-                  Marquer comme lu
+                  {t.notifications_marquer_lu}
                 </button>
               )}
             </form>

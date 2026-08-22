@@ -2,7 +2,7 @@
 
 const STORAGE_KEY = "yega-theme";
 
-export function ThemeToggle() {
+export function ThemeToggle({ label }: { label: string }) {
   function toggle() {
     const root = document.documentElement;
     const next = !root.classList.contains("dark");
@@ -18,7 +18,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={toggle}
-      aria-label="Changer de thème (clair / sombre)"
+      aria-label={label}
       className="flex h-9 w-9 items-center justify-center rounded-full text-brand-gold transition-colors hover:bg-brand-gold-light dark:hover:bg-[#fff]/10"
     >
       {/* Lune : visible en thème clair (bouton pour passer au sombre) */}

@@ -5,17 +5,22 @@ import { StatusTimeline } from "@/components/StatusTimeline";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import { assignMission, updateMissionStatus } from "../actions";
 import {
-  MISSION_STATUS_LABELS,
+  getMissionStatusLabels,
+  getMissionTypeLabels,
   MISSION_STATUS_ORDER,
-  MISSION_TYPE_LABELS,
   type MissionWithRelations,
 } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
 
 export default async function BackOfficeMissionsPage() {
   const profile = await getCurrentProfile();
   const isStaff = STAFF_ROLES.includes(profile!.role);
+  const locale = await getLocale();
+  const t = UI[locale];
+  const missionTypeLabels = getMissionTypeLabels(locale);
+  const missionStatusLabels = getMissionStatusLabels(locale);
   const supabase = await createClient();
 
   const { data: missions } = await supabase
@@ -34,12 +39,10 @@ export default async function BackOfficeMissionsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-            Missions
+            {t.missions_titre}
           </h1>
           <p className="mt-1 text-sm text-gray-500">
-            {isStaff
-              ? "Toutes les missions actives de YEGA."
-              : "Les missions qui vous sont assignées."}
+            {isStaff ? t.missions_staff : t.missions_agent}
           </p>
         </div>
         {isStaff && (
@@ -47,7 +50,7 @@ export default async function BackOfficeMissionsPage() {
             href="/back-office/missions/new"
             className="rounded-xl bg-brand-green px-4 py-2.5 text-sm font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md"
           >
-            Nouvelle mission
+            {t.missions_nouvelle}
           </Link>
         )}
       </div>
@@ -55,7 +58,7 @@ export default async function BackOfficeMissionsPage() {
       <div className="mt-6 space-y-4">
         {!missions?.length && (
           <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
-            Aucune mission pour le moment.
+            {t.missions_aucune}
           </p>
         )}
 
@@ -64,7 +67,7 @@ export default async function BackOfficeMissionsPage() {
             <div className="flex flex-wrap items-center justify-between gap-2">
               <h2 className="font-medium text-gray-800">
                 <Link href={`/missions/${mission.id}`} className="hover:text-brand-green hover:underline">
-                  {MISSION_TYPE_LABELS[mission.type]}
+                  {missionTypeLabels[mission.type]}
                   {mission.ville ? ` — ${mission.ville}` : ""}
                 </Link>
                 <span className="ml-2 text-sm font-normal text-gray-400">
@@ -115,7 +118,7 @@ export default async function BackOfficeMissionsPage() {
                   >
                     {MISSION_STATUS_ORDER.map((status) => (
                       <option key={status} value={status}>
-                        {MISSION_STATUS_LABELS[status]}
+                        {missionStatusLabels[status]}
                       </option>
                     ))}
                   </select>

@@ -1,7 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
-import { VISIT_STATUS_LABELS, type VisitWithRelations } from "@/lib/supabase/types";
+import { getVisitStatusLabels, type VisitWithRelations } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 
 export async function VisitsSection({ missionId }: { missionId: string }) {
+  const visitStatusLabels = getVisitStatusLabels(await getLocale());
   const supabase = await createClient();
   const { data: visits } = await supabase
     .from("visits")
@@ -37,7 +39,7 @@ export async function VisitsSection({ missionId }: { missionId: string }) {
                     : "rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700"
               }
             >
-              {VISIT_STATUS_LABELS[visit.statut]}
+              {visitStatusLabels[visit.statut]}
             </span>
           </li>
         ))}

@@ -2,12 +2,14 @@ import { redirect } from "next/navigation";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AwarenessTip } from "@/components/AwarenessTip";
+import { getLocale, UI } from "@/lib/i18n";
 import { AssistantChat } from "./assistant-chat";
 
 export default async function AssistantPage() {
   const profile = await getCurrentProfile();
   if (!profile) redirect("/login");
   if (profile.role !== "client") redirect("/dashboard");
+  const t = UI[await getLocale()];
 
   return (
     <div className="app-shell min-h-screen">
@@ -15,12 +17,9 @@ export default async function AssistantPage() {
       <main className="mx-auto max-w-3xl px-6 py-10">
         <AwarenessTip role={profile.role} pageKey="assistant" />
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-          Assistant YEGA
+          {t.assistant_titre}
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Posez une question sur vos projets — l&apos;assistant répond uniquement à partir de
-          vos propres données (module 15).
-        </p>
+        <p className="mt-1 text-sm text-gray-500">{t.assistant_sous_titre}</p>
 
         <AssistantChat />
       </main>

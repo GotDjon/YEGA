@@ -4,6 +4,7 @@ import { getCurrentProfile } from "@/lib/supabase/session";
 import { SiteHeader } from "@/components/SiteHeader";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import type { FaqRow } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 import { deleteFaq } from "./actions";
 import { NewFaqForm } from "./new-faq-form";
 
@@ -14,6 +15,7 @@ export default async function AidePage() {
   if (!profile) redirect("/login");
 
   const isStaff = STAFF_ROLES.includes(profile.role);
+  const t = UI[await getLocale()];
   const supabase = await createClient();
   const { data: faqs } = await supabase
     .from("faqs")
@@ -28,17 +30,14 @@ export default async function AidePage() {
       <main className="mx-auto max-w-6xl px-6 py-10">
         <AwarenessTip role={profile.role} pageKey="aide" />
         <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
-          Centre d&apos;aide
+          {t.aide_titre}
         </h1>
-        <p className="mt-1 text-sm text-gray-500">
-          Questions fréquentes (module 20). Pour une question spécifique à votre projet,
-          utilisez la messagerie de la mission concernée.
-        </p>
+        <p className="mt-1 text-sm text-gray-500">{t.aide_sous_titre}</p>
 
         <div className="mt-6 space-y-3">
           {!faqs?.length && (
             <p className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-8 text-center text-sm text-brand-ink/50">
-              Aucune question pour le moment.
+              {t.aide_aucune_question}
             </p>
           )}
           {faqs?.map((faq) => (

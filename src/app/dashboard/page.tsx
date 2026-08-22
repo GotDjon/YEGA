@@ -4,11 +4,15 @@ import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import { SeverityBadge } from "@/components/SeverityBadge";
-import { MISSION_TYPE_LABELS, type Mission, type NotificationRow } from "@/lib/supabase/types";
+import { getMissionTypeLabels, type Mission, type NotificationRow } from "@/lib/supabase/types";
+import { getLocale, UI } from "@/lib/i18n";
 
 export default async function ClientDashboardPage() {
   const profile = await getCurrentProfile();
   const supabase = await createClient();
+  const locale = await getLocale();
+  const t = UI[locale];
+  const missionTypeLabels = getMissionTypeLabels(locale);
 
   const [{ data: missions }, { data: actionsRequises }] = await Promise.all([
     supabase
@@ -33,28 +37,25 @@ export default async function ClientDashboardPage() {
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-xs font-semibold uppercase tracking-[0.16em] text-brand-gold-dark">
-            Espace client
+            {t.dashboard_espace_client}
           </p>
           <h1 className="mt-1 font-[family-name:var(--font-display)] text-3xl font-semibold text-heading">
-            Mes projets
+            {t.dashboard_titre}
           </h1>
-          <p className="mt-1.5 text-sm text-brand-ink/60">
-            Suivez l&apos;avancement de vos missions au Cameroun en temps réel.
-          </p>
+          <p className="mt-1.5 text-sm text-brand-ink/60">{t.dashboard_sous_titre}</p>
         </div>
         <Link
           href="/dashboard/nouveau-projet"
           className="rounded-xl bg-brand-green px-5 py-2.5 text-sm font-semibold text-[#fff] shadow-sm shadow-brand-green/30 transition hover:bg-brand-green-dark hover:shadow-md"
         >
-          + Déposer un projet
+          {t.dashboard_deposer_projet}
         </Link>
       </div>
 
       {!!actionsRequises?.length && (
         <div className="mt-6 rounded-2xl border border-brand-gold/30 bg-white p-5 shadow-sm">
           <h2 className="text-sm font-semibold text-heading">
-            {actionsRequises.length} action{actionsRequises.length > 1 ? "s" : ""} requiert
-            {actionsRequises.length > 1 ? "ent" : ""} votre attention
+            {actionsRequises.length} {t.dashboard_actions_requises}
           </h2>
           <ul className="mt-3 space-y-2">
             {actionsRequises.map((notification) => (
@@ -64,7 +65,7 @@ export default async function ClientDashboardPage() {
                   <SeverityBadge severite={notification.severite} />
                   {notification.lien && (
                     <Link href={notification.lien} className="text-brand-green hover:underline">
-                      Voir
+                      {t.notifications_voir}
                     </Link>
                   )}
                 </div>
@@ -78,10 +79,10 @@ export default async function ClientDashboardPage() {
         {!missions?.length && (
           <div className="card rounded-2xl border border-dashed border-brand-gold/30 bg-white p-12 text-center">
             <p className="font-[family-name:var(--font-display)] text-lg text-heading">
-              Aucun projet pour le moment
+              {t.dashboard_aucun_projet}
             </p>
             <p className="mx-auto mt-2 max-w-sm text-sm text-brand-ink/50">
-              Cliquez sur « Déposer un projet » pour démarrer votre première mission avec YEGA.
+              {t.dashboard_aucun_projet_desc}
             </p>
           </div>
         )}
@@ -95,7 +96,7 @@ export default async function ClientDashboardPage() {
             <div className="flex flex-wrap items-start justify-between gap-2">
               <div>
                 <span className="inline-flex items-center gap-1.5 rounded-full bg-brand-green-light px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-wide text-heading">
-                  {MISSION_TYPE_LABELS[mission.type]}
+                  {missionTypeLabels[mission.type]}
                 </span>
                 <h2 className="mt-2 font-[family-name:var(--font-display)] text-lg font-semibold text-brand-ink">
                   {mission.ville || "Projet"}
@@ -112,7 +113,7 @@ export default async function ClientDashboardPage() {
               <StatusTimeline statut={mission.statut} />
             </div>
             <span className="mt-4 inline-flex items-center gap-1 text-xs font-medium text-brand-green opacity-0 transition-opacity group-hover:opacity-100">
-              Voir le détail →
+              {t.dashboard_voir_detail}
             </span>
           </Link>
         ))}

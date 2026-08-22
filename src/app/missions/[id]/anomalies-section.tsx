@@ -1,9 +1,10 @@
 import {
-  ANOMALY_GRAVITE_LABELS,
-  ANOMALY_STATUT_LABELS,
+  getAnomalyGraviteLabels,
+  getAnomalyStatutLabels,
   ANOMALY_STATUT_ORDER,
   type AnomalyRow,
 } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 import { updateAnomalyStatus } from "../actions";
 import { NewAnomalyForm } from "./new-anomaly-form";
 
@@ -20,7 +21,7 @@ const STATUT_BADGE: Record<AnomalyRow["statut"], string> = {
   resolue: "bg-green-100 text-green-700",
 };
 
-export function AnomaliesSection({
+export async function AnomaliesSection({
   missionId,
   anomalies,
   canReport,
@@ -31,6 +32,10 @@ export function AnomaliesSection({
   canReport: boolean;
   canManage: boolean;
 }) {
+  const locale = await getLocale();
+  const graviteLabels = getAnomalyGraviteLabels(locale);
+  const statutLabels = getAnomalyStatutLabels(locale);
+
   return (
     <section>
       <h2 className="font-[family-name:var(--font-display)] text-lg font-semibold text-heading">
@@ -50,10 +55,10 @@ export function AnomaliesSection({
               <span className="font-medium text-gray-800">{anomaly.titre}</span>
               <div className="flex items-center gap-2">
                 <span className={`rounded-full px-2 py-0.5 text-xs ${GRAVITE_BADGE[anomaly.gravite]}`}>
-                  {ANOMALY_GRAVITE_LABELS[anomaly.gravite]}
+                  {graviteLabels[anomaly.gravite]}
                 </span>
                 <span className={`rounded-full px-2 py-0.5 text-xs ${STATUT_BADGE[anomaly.statut]}`}>
-                  {ANOMALY_STATUT_LABELS[anomaly.statut]}
+                  {statutLabels[anomaly.statut]}
                 </span>
               </div>
             </div>
@@ -73,7 +78,7 @@ export function AnomaliesSection({
                 >
                   {ANOMALY_STATUT_ORDER.map((statut) => (
                     <option key={statut} value={statut}>
-                      {ANOMALY_STATUT_LABELS[statut]}
+                      {statutLabels[statut]}
                     </option>
                   ))}
                 </select>

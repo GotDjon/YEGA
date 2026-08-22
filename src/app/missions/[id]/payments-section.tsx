@@ -1,9 +1,10 @@
 import { createClient } from "@/lib/supabase/server";
 import {
-  PAYMENT_METHOD_LABELS,
-  PAYMENT_STATUS_LABELS,
+  getPaymentMethodLabels,
+  getPaymentStatusLabels,
   type PaymentRow,
 } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 import { PaymentForm } from "./payment-form";
 
 export async function PaymentsSection({
@@ -13,6 +14,9 @@ export async function PaymentsSection({
   missionId: string;
   isClient: boolean;
 }) {
+  const locale = await getLocale();
+  const paymentMethodLabels = getPaymentMethodLabels(locale);
+  const paymentStatusLabels = getPaymentStatusLabels(locale);
   const supabase = await createClient();
   const { data: payments } = await supabase
     .from("payments")
@@ -38,7 +42,7 @@ export async function PaymentsSection({
           >
             <span>
               {payment.montant.toLocaleString("fr-FR")} FCFA
-              {payment.methode ? ` · ${PAYMENT_METHOD_LABELS[payment.methode]}` : ""}
+              {payment.methode ? ` · ${paymentMethodLabels[payment.methode]}` : ""}
             </span>
             <span
               className={
@@ -49,7 +53,7 @@ export async function PaymentsSection({
                     : "rounded-full bg-amber-100 px-2 py-0.5 text-xs text-amber-700"
               }
             >
-              {PAYMENT_STATUS_LABELS[payment.statut as keyof typeof PAYMENT_STATUS_LABELS] ??
+              {paymentStatusLabels[payment.statut as keyof typeof paymentStatusLabels] ??
                 payment.statut}
             </span>
           </li>
