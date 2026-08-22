@@ -7,6 +7,20 @@ import { SeverityBadge } from "@/components/SeverityBadge";
 import { getMissionTypeLabels, type Mission, type NotificationRow } from "@/lib/supabase/types";
 import { getLocale, UI } from "@/lib/i18n";
 
+function StatTile({ label, value }: { label: string; value: string | number }) {
+  return (
+    <div className="card relative overflow-hidden rounded-2xl border border-gray-100 bg-white p-4">
+      <span className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-brand-gold to-brand-gold-light" />
+      <p className="text-[11px] font-semibold uppercase tracking-[0.1em] text-brand-ink/40">
+        {label}
+      </p>
+      <p className="mt-1 font-[family-name:var(--font-display)] text-2xl font-semibold text-heading">
+        {value}
+      </p>
+    </div>
+  );
+}
+
 export default async function ClientDashboardPage() {
   const profile = await getCurrentProfile();
   const supabase = await createClient();
@@ -31,6 +45,29 @@ export default async function ClientDashboardPage() {
       .returns<NotificationRow[]>(),
   ]);
 
+  const missionIds = (missions ?? []).map((m) => m.id);
+  const [{ data: budgetRevisions }, { count: documentsAttente }, { count: preuvesCount }] =
+    missionIds.length
+      ? await Promise.all([
+          supabase.from("budget_revisions").select("montant_delta").in("mission_id", missionIds),
+          supabase
+            .from("documents")
+            .select("id", { count: "exact", head: true })
+            .in("mission_id", missionIds)
+            .in("type", ["contrat", "devis"])
+            .is("signature_url", null),
+          supabase
+            .from("reports")
+            .select("id", { count: "exact", head: true })
+            .in("mission_id", missionIds),
+        ])
+      : [{ data: [] as { montant_delta: number }[] }, { count: 0 }, { count: 0 }];
+
+  const budgetTotal =
+    (missions ?? []).reduce((sum, m) => sum + (m.budget_estime ?? 0), 0) +
+    (budgetRevisions ?? []).reduce((sum, r) => sum + r.montant_delta, 0);
+  const missionsActivesCount = (missions ?? []).filter((m) => m.statut !== "cloturee").length;
+
   return (
     <div>
       <AwarenessTip role={profile?.role} pageKey="dashboard" />
@@ -51,6 +88,18 @@ export default async function ClientDashboardPage() {
           {t.dashboard_deposer_projet}
         </Link>
       </div>
+
+      {!!missions?.length && (
+        <div className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
+          <StatTile
+            label={t.dashboard_stat_budget}
+            value={budgetTotal ? `${budgetTotal.toLocaleString("fr-FR")} FCFA` : "—"}
+          />
+          <StatTile label={t.dashboard_stat_documents} value={documentsAttente ?? 0} />
+          <StatTile label={t.dashboard_stat_preuves} value={preuvesCount ?? 0} />
+          <StatTile label={t.dashboard_stat_missions_actives} value={missionsActivesCount} />
+        </div>
+      )}
 
       {!!actionsRequises?.length && (
         <div className="mt-6 rounded-2xl border border-brand-gold/30 bg-white p-5 shadow-sm">

@@ -32,6 +32,10 @@ export const UI = {
       "Cliquez sur « Déposer un projet » pour démarrer votre première mission avec YEGA.",
     dashboard_voir_detail: "Voir le détail →",
     dashboard_actions_requises: "action(s) requièrent votre attention",
+    dashboard_stat_budget: "Budget actuel",
+    dashboard_stat_documents: "Documents à signer",
+    dashboard_stat_preuves: "Preuves ajoutées",
+    dashboard_stat_missions_actives: "Missions actives",
 
     notifications_titre: "Notifications",
     notifications_aucune: "Aucune notification.",
@@ -101,6 +105,10 @@ export const UI = {
     dashboard_aucun_projet_desc: "Click “Submit a project” to start your first mission with YEGA.",
     dashboard_voir_detail: "View details →",
     dashboard_actions_requises: "action(s) require your attention",
+    dashboard_stat_budget: "Current budget",
+    dashboard_stat_documents: "Documents to sign",
+    dashboard_stat_preuves: "Proofs added",
+    dashboard_stat_missions_actives: "Active missions",
 
     notifications_titre: "Notifications",
     notifications_aucune: "No notifications.",
