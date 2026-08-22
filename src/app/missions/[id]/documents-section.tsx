@@ -57,7 +57,7 @@ export async function DocumentsSection({
             key={doc.id}
             className="rounded-xl border border-gray-100 bg-white px-4 py-2.5 text-sm shadow-sm"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span>{documentTypeLabels[doc.type]}</span>
               {links[index].data?.signedUrl ? (
                 <a

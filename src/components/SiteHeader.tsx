@@ -42,11 +42,12 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
 
   const navLinkClass =
     "relative py-1 text-sm font-bold text-heading/85 transition-colors hover:text-heading after:absolute after:-bottom-1 after:left-0 after:h-px after:w-0 after:bg-brand-gold after:transition-all hover:after:w-full";
+  const mobileNavLinkClass = "text-heading/85 hover:text-heading";
 
   return (
     <header className="sticky top-0 z-20 border-b border-brand-gold/20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
-      <div className="mx-auto flex max-w-6xl items-center justify-between gap-8 px-6 py-4">
-        <Link href="/dashboard" className="shrink-0">
+      <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:gap-8 sm:px-6 sm:py-4">
+        <Link href="/dashboard" className="min-w-0 shrink-0">
           <Logo />
         </Link>
 
@@ -90,13 +91,15 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
           </Link>
         </nav>
 
-        <div className="flex items-center gap-3">
-          <LanguageToggle locale={locale} label={t.changer_langue} />
-          <ThemeToggle label={t.changer_theme} />
+        <div className="flex shrink-0 items-center gap-1.5 sm:gap-3">
+          <div className="hidden items-center gap-1.5 sm:flex sm:gap-3">
+            <LanguageToggle locale={locale} label={t.changer_langue} />
+            <ThemeToggle label={t.changer_theme} />
+          </div>
 
           <Link
             href="/notifications"
-            className="relative flex h-9 w-9 items-center justify-center rounded-full text-brand-gold transition-colors hover:bg-brand-gold-light dark:hover:bg-[#fff]/10"
+            className="relative flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-brand-gold transition-colors hover:bg-brand-gold-light dark:hover:bg-[#fff]/10"
             aria-label={t.notifications}
           >
             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="h-5 w-5">
@@ -113,8 +116,8 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
             )}
           </Link>
 
-          <div className="hidden items-center gap-2.5 border-l border-gray-200 pl-4 sm:flex">
-            <span className="flex h-8 w-8 items-center justify-center rounded-full bg-brand-green-light text-xs font-semibold text-heading">
+          <div className="hidden items-center gap-2.5 border-l border-gray-200 pl-4 lg:flex">
+            <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-brand-green-light text-xs font-semibold text-heading">
               {initials(profile.nom)}
             </span>
             <span className="flex flex-col leading-tight">
@@ -125,10 +128,10 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
             </span>
           </div>
 
-          <form action={logout}>
+          <form action={logout} className="shrink-0">
             <button
               type="submit"
-              className="rounded-full border border-brand-green/20 px-3.5 py-1.5 text-xs font-medium text-heading transition-colors hover:border-brand-green hover:bg-brand-green-light"
+              className="rounded-full border border-brand-green/20 px-2.5 py-1.5 text-xs font-medium text-heading transition-colors hover:border-brand-green hover:bg-brand-green-light sm:px-3.5"
             >
               {t.deconnexion}
             </button>
@@ -136,23 +139,49 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
         </div>
       </div>
 
-      <nav className="flex flex-wrap gap-x-6 gap-y-1.5 border-t border-gray-100 px-6 py-2.5 text-sm font-bold text-heading/85 md:hidden">
-        <Link href="/dashboard" className="hover:text-heading">
+      <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 border-t border-gray-100 px-4 py-2.5 text-sm font-bold sm:px-6 md:hidden">
+        <Link href="/dashboard" className={mobileNavLinkClass}>
           {t.nav_mes_projets}
         </Link>
         {profile.role === "client" && (
-          <Link href="/assistant" className="hover:text-heading">
+          <Link href="/assistant" className={mobileNavLinkClass}>
             {t.nav_assistant}
           </Link>
         )}
         {hasBackOffice && (
-          <Link href="/back-office/missions" className="hover:text-heading">
-            {t.nav_back_office}
-          </Link>
+          <>
+            <Link href="/back-office/missions" className={mobileNavLinkClass}>
+              {t.nav_back_office}
+            </Link>
+            <Link href="/back-office/agenda" className={mobileNavLinkClass}>
+              {t.nav_agenda}
+            </Link>
+          </>
         )}
-        <Link href="/aide" className="hover:text-heading">
+        {isStaff && (
+          <>
+            <Link href="/back-office/clients" className={mobileNavLinkClass}>
+              {t.nav_clients}
+            </Link>
+            <Link href="/back-office/direction" className={mobileNavLinkClass}>
+              {t.nav_direction}
+            </Link>
+            <Link href="/back-office/partenaires" className={mobileNavLinkClass}>
+              {t.nav_partenaires}
+            </Link>
+            <Link href="/back-office/audit" className={mobileNavLinkClass}>
+              {t.nav_audit}
+            </Link>
+          </>
+        )}
+        <Link href="/aide" className={mobileNavLinkClass}>
           {t.nav_aide}
         </Link>
+
+        <span className="flex items-center gap-1.5 border-l border-gray-100 pl-3 font-normal sm:hidden">
+          <LanguageToggle locale={locale} label={t.changer_langue} />
+          <ThemeToggle label={t.changer_theme} />
+        </span>
       </nav>
     </header>
   );

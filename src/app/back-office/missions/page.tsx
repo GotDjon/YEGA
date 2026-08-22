@@ -36,7 +36,7 @@ export default async function BackOfficeMissionsPage() {
   return (
     <div>
       <AwarenessTip role={profile?.role} pageKey="back-office-missions" />
-      <div className="flex items-center justify-between">
+      <div className="flex flex-wrap items-center justify-between gap-3">
         <div>
           <h1 className="font-[family-name:var(--font-display)] text-3xl font-semibold tracking-tight text-heading">
             {t.missions_titre}

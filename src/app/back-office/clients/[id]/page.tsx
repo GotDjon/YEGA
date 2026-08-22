@@ -5,13 +5,14 @@ import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import {
-  MISSION_TYPE_LABELS,
-  PAYMENT_METHOD_LABELS,
-  PAYMENT_STATUS_LABELS,
+  getMissionTypeLabels,
+  getPaymentMethodLabels,
+  getPaymentStatusLabels,
   type Mission,
   type PaymentRow,
   type Profile,
 } from "@/lib/supabase/types";
+import { getLocale } from "@/lib/i18n";
 
 export default async function ClientDetailPage({
   params,
@@ -24,6 +25,10 @@ export default async function ClientDetailPage({
     redirect("/back-office/missions");
   }
 
+  const locale = await getLocale();
+  const missionTypeLabels = getMissionTypeLabels(locale);
+  const paymentMethodLabels = getPaymentMethodLabels(locale);
+  const paymentStatusLabels = getPaymentStatusLabels(locale);
   const supabase = await createClient();
 
   const { data: client } = await supabase
@@ -78,9 +83,9 @@ export default async function ClientDetailPage({
             href={`/missions/${mission.id}`}
             className="card card-interactive block rounded-2xl border border-gray-100 bg-white p-4 hover:border-brand-green/40"
           >
-            <div className="flex items-center justify-between">
+            <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="font-medium text-gray-800">
-                {MISSION_TYPE_LABELS[mission.type]}
+                {missionTypeLabels[mission.type]}
                 {mission.ville ? ` — ${mission.ville}` : ""}
               </span>
               <span className="text-xs text-gray-400">
@@ -122,10 +127,10 @@ export default async function ClientDetailPage({
                 </td>
                 <td className="px-4 py-3">{payment.montant.toLocaleString("fr-FR")} FCFA</td>
                 <td className="px-4 py-3 text-gray-500">
-                  {payment.methode ? PAYMENT_METHOD_LABELS[payment.methode] : "—"}
+                  {payment.methode ? paymentMethodLabels[payment.methode] : "—"}
                 </td>
                 <td className="px-4 py-3 text-gray-500">
-                  {PAYMENT_STATUS_LABELS[payment.statut as keyof typeof PAYMENT_STATUS_LABELS] ??
+                  {paymentStatusLabels[payment.statut as keyof typeof paymentStatusLabels] ??
                     payment.statut}
                 </td>
               </tr>
