@@ -22,6 +22,8 @@ export const UI = {
     deconnexion: "Déconnexion",
     changer_theme: "Changer de thème (clair / sombre)",
     changer_langue: "Switch to English",
+    whatsapp_label: "Contacter YEGA sur WhatsApp",
+    whatsapp_message: "Bonjour YEGA, je souhaiterais avoir des informations.",
 
     dashboard_espace_client: "Espace client",
     dashboard_titre: "Mes projets",
@@ -96,6 +98,8 @@ export const UI = {
     deconnexion: "Log out",
     changer_theme: "Switch theme (light / dark)",
     changer_langue: "Passer en français",
+    whatsapp_label: "Contact YEGA on WhatsApp",
+    whatsapp_message: "Hello YEGA, I'd like some information.",
 
     dashboard_espace_client: "Client area",
     dashboard_titre: "My projects",
