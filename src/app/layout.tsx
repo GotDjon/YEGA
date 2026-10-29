@@ -16,7 +16,7 @@ const manrope = Manrope({
 export const metadata: Metadata = {
   title: "YEGA — Espace client",
   description:
-    "Plateforme numérique YEGA : suivez vos projets au Cameroun où que vous soyez.",
+    "Plateforme numérique YEGA : suivez vos projets au Cameroun, que vous y viviez ou non.",
 };
 
 // Applique le thème (clair/sombre) enregistré avant le premier rendu visible, pour éviter

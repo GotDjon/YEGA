@@ -20,17 +20,12 @@ export default async function LoginPage({
           <Logo variant="light" size="lg" />
           <div>
             <p className="font-[family-name:var(--font-display)] text-3xl leading-tight">
-              Même à des milliers de kilomètres, gardez le contrôle de votre projet au Cameroun.
+              {t.login_accroche}
             </p>
             <div className="gold-rule mt-6" />
-            <p className="mt-4 text-sm text-[#fff]/70">
-              Suivi en temps réel, documents sécurisés, paiements tracés — une seule plateforme
-              pour la diaspora camerounaise.
-            </p>
+            <p className="mt-4 text-sm text-[#fff]/70">{t.login_accroche_desc}</p>
           </div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[#fff]/40">
-            Espace client · Back-office · Mission terrain
-          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#fff]/40">{t.espaces}</p>
         </div>
 
         <div className="bg-white p-8 sm:p-10">
@@ -49,9 +44,9 @@ export default async function LoginPage({
           <LoginForm next={next ?? "/dashboard"} />
 
           <p className="mt-6 text-center text-sm text-brand-ink/60">
-            Pas encore de compte ?{" "}
+            {t.login_pas_de_compte}{" "}
             <Link href="/register" className="font-medium text-brand-green hover:text-heading">
-              Créer un compte
+              {t.login_creer_compte}
             </Link>
           </p>
         </div>

@@ -10,7 +10,7 @@ const TIPS_COMMUNS = {
     "La messagerie intégrée à chaque mission vous permet d'échanger directement avec votre chargé de mission, sans jamais quitter la plateforme.",
     "Consultez à tout moment la frise de statut de votre mission pour savoir précisément où en est votre dossier.",
     "Une question fréquente ? Le Centre d'aide y répond peut-être déjà — sinon, votre chargé de mission s'en charge.",
-    "Où que vous soyez dans le monde, gardez le contrôle de votre projet au Cameroun, en toute confiance.",
+    "Que vous viviez à Yaoundé, Paris, Abidjan ou Montréal, gardez le contrôle de votre projet au Cameroun, en toute confiance.",
   ],
   en: [
     "Did you know? Every YEGA mission is followed by a dedicated field agent, from the first contact until the file is closed.",
@@ -21,7 +21,7 @@ const TIPS_COMMUNS = {
     "The messaging built into each mission lets you talk directly with your field agent, without ever leaving the platform.",
     "Check your mission's status timeline at any time to know exactly where your file stands.",
     "Common question? The Help center may already have the answer — otherwise, your field agent will help.",
-    "Wherever you are in the world, keep control of your project in Cameroon, with full confidence.",
+    "Whether you live in Yaoundé, Paris, Abidjan or Montreal, keep control of your project in Cameroon, with full confidence.",
   ],
 };
 

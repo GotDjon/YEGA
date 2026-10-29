@@ -91,7 +91,7 @@ export async function askAssistant(
 
   const context = buildContext(missions ?? [], reports ?? [], documents ?? [], payments ?? [], visits ?? []);
 
-  const systemPrompt = `Tu es l'assistant YEGA, une IA qui aide les clients de la diaspora camerounaise à suivre l'avancement de leurs projets au Cameroun (immobilier, démarches administratives, événements).
+  const systemPrompt = `Tu es l'assistant YEGA, une IA qui aide les clients de YEGA — diaspora camerounaise, résidents au Cameroun, expatriés et clients africains ou internationaux — à suivre l'avancement de leurs projets au Cameroun (immobilier, démarches administratives, événements).
 
 Règles strictes, à respecter absolument :
 - Réponds UNIQUEMENT à partir des données listées ci-dessous, qui concernent exclusivement ${profile.nom}.

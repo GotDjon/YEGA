@@ -15,17 +15,12 @@ export default async function RegisterPage() {
           <Logo variant="light" size="lg" />
           <div>
             <p className="font-[family-name:var(--font-display)] text-3xl leading-tight">
-              Déposez votre premier projet en quelques minutes.
+              {t.register_accroche}
             </p>
             <div className="gold-rule mt-6" />
-            <p className="mt-4 text-sm text-[#fff]/70">
-              Immobilier, démarches administratives, événements — YEGA accompagne chaque étape,
-              du premier contact à la clôture du dossier.
-            </p>
+            <p className="mt-4 text-sm text-[#fff]/70">{t.register_accroche_desc}</p>
           </div>
-          <p className="text-xs uppercase tracking-[0.2em] text-[#fff]/40">
-            Espace client · Back-office · Mission terrain
-          </p>
+          <p className="text-xs uppercase tracking-[0.2em] text-[#fff]/40">{t.espaces}</p>
         </div>
 
         <div className="bg-white p-8 sm:p-10">
@@ -41,12 +36,12 @@ export default async function RegisterPage() {
           </h1>
           <p className="mt-1 text-sm text-brand-ink/60">{t.register_sous_titre}</p>
 
-          <RegisterForm />
+          <RegisterForm locale={locale} />
 
           <p className="mt-6 text-center text-sm text-brand-ink/60">
-            Déjà un compte ?{" "}
+            {t.register_deja_compte}{" "}
             <Link href="/login" className="font-medium text-brand-green hover:text-heading">
-              Se connecter
+              {t.register_se_connecter}
             </Link>
           </p>
         </div>

@@ -3,7 +3,12 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getCurrentProfile } from "@/lib/supabase/session";
 import { AwarenessTip } from "@/components/AwarenessTip";
-import type { Mission, PaymentRow, Profile } from "@/lib/supabase/types";
+import {
+  getClientProfileLabels,
+  type Mission,
+  type PaymentRow,
+  type Profile,
+} from "@/lib/supabase/types";
 import { getLocale, UI } from "@/lib/i18n";
 
 const STAFF_ROLES = ["responsable_technique", "direction", "admin"];
@@ -12,7 +17,9 @@ export default async function ClientsPage() {
   const profile = await getCurrentProfile();
   if (!profile || !STAFF_ROLES.includes(profile.role)) redirect("/back-office/missions");
 
-  const t = UI[await getLocale()];
+  const locale = await getLocale();
+  const t = UI[locale];
+  const profileLabels = getClientProfileLabels(locale);
   const supabase = await createClient();
 
   const [{ data: clients }, { data: missions }, { data: payments }] = await Promise.all([
@@ -53,7 +60,8 @@ export default async function ClientsPage() {
           <thead className="bg-brand-green-light/60 text-[11px] font-semibold uppercase tracking-wide text-heading">
             <tr>
               <th className="px-4 py-3">Client</th>
-              <th className="px-4 py-3">Pays</th>
+              <th className="px-4 py-3">{t.clients_col_profil}</th>
+              <th className="px-4 py-3">{t.clients_col_pays}</th>
               <th className="px-4 py-3">Missions</th>
               <th className="px-4 py-3">Revenu total</th>
             </tr>
@@ -61,7 +69,7 @@ export default async function ClientsPage() {
           <tbody>
             {!clients?.length && (
               <tr>
-                <td colSpan={4} className="px-4 py-6 text-center text-gray-400">
+                <td colSpan={5} className="px-4 py-6 text-center text-gray-400">
                   Aucun client pour le moment.
                 </td>
               </tr>
@@ -76,7 +84,12 @@ export default async function ClientsPage() {
                     {client.nom}
                   </Link>
                 </td>
-                <td className="px-4 py-3 text-gray-500">{client.pays ?? "—"}</td>
+                <td className="px-4 py-3 text-gray-500">
+                  {client.profil_client ? profileLabels[client.profil_client] : "—"}
+                </td>
+                <td className="px-4 py-3 text-gray-500">
+                  {[client.ville, client.pays].filter(Boolean).join(", ") || "—"}
+                </td>
                 <td className="px-4 py-3 text-gray-500">
                   {missionsByClient.get(client.id)?.length ?? 0}
                 </td>

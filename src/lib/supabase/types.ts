@@ -68,12 +68,41 @@ export function getMissionTypeLabels(locale: Locale) {
   return locale === "en" ? MISSION_TYPE_LABELS_EN : MISSION_TYPE_LABELS;
 }
 
+export type ClientProfile = "diaspora" | "resident" | "expatrie" | "international";
+
+export const CLIENT_PROFILE_ORDER: ClientProfile[] = [
+  "diaspora",
+  "resident",
+  "expatrie",
+  "international",
+];
+
+export const CLIENT_PROFILE_LABELS: Record<ClientProfile, string> = {
+  diaspora: "Diaspora camerounaise",
+  resident: "Résident au Cameroun",
+  expatrie: "Expatrié au Cameroun",
+  international: "Client africain / international",
+};
+
+const CLIENT_PROFILE_LABELS_EN: Record<ClientProfile, string> = {
+  diaspora: "Cameroonian diaspora",
+  resident: "Living in Cameroon",
+  expatrie: "Expatriate in Cameroon",
+  international: "African / international client",
+};
+
+export function getClientProfileLabels(locale: Locale) {
+  return locale === "en" ? CLIENT_PROFILE_LABELS_EN : CLIENT_PROFILE_LABELS;
+}
+
 export interface Profile {
   id: string;
   role: UserRole;
   nom: string;
   telephone: string | null;
   pays: string | null;
+  ville: string | null;
+  profil_client: ClientProfile | null;
   date_creation: string;
 }
 

@@ -1,8 +1,8 @@
 # YEGA
 
-Plateforme numérique YEGA — espace client, back-office et mission terrain pour la diaspora camerounaise.
+Plateforme numérique YEGA — espace client, back-office et mission terrain pour tous les clients de YEGA : diaspora camerounaise, résidents au Cameroun, expatriés et clients africains ou internationaux.
 
-YEGA PROJECT accompagne la diaspora camerounaise dans la réalisation de ses projets au Cameroun (immobilier, démarches administratives, événements — familles Home / Project / Moments). Le site vitrine ([yega-cm.netlify.app](https://yega-cm.netlify.app)) existe déjà ; ce dépôt porte la phase 2 : une plateforme applicative complète (comptes utilisateurs, base de données, stockage documentaire, paiements).
+YEGA PROJECT accompagne ses clients — qu'ils vivent au Cameroun ou à l'étranger — dans la réalisation de leurs projets au Cameroun (immobilier, démarches administratives, événements — familles Home / Project / Moments). Le site vitrine ([yega-cm.netlify.app](https://yega-cm.netlify.app)) existe déjà ; ce dépôt porte la phase 2 : une plateforme applicative complète (comptes utilisateurs, base de données, stockage documentaire, paiements).
 
 ## Documentation
 

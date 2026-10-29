@@ -80,9 +80,36 @@ export const UI = {
     audit_aucune_entree: "Aucune entrée pour le moment.",
 
     login_titre: "Connexion",
-    login_sous_titre: "Pilotez vos projets au Cameroun, où que vous soyez.",
+    login_sous_titre: "Pilotez vos projets au Cameroun, que vous y viviez ou non.",
+    login_accroche: "Au Cameroun ou à l'étranger, gardez le contrôle de votre projet.",
+    login_accroche_desc:
+      "Suivi en temps réel, documents sécurisés, paiements tracés — une seule plateforme pour la diaspora, les résidents camerounais, les expatriés et nos clients africains et internationaux.",
+    login_pas_de_compte: "Pas encore de compte ?",
+    login_creer_compte: "Créer un compte",
+    espaces: "Espace client · Back-office · Mission terrain",
+
     register_titre: "Créer un compte",
     register_sous_titre: "Ouvrez votre espace client YEGA en quelques secondes.",
+    register_accroche: "Déposez votre premier projet en quelques minutes.",
+    register_accroche_desc:
+      "Immobilier, démarches administratives, événements — que vous viviez au Cameroun, ailleurs en Afrique ou dans le monde, YEGA accompagne chaque étape, du premier contact à la clôture du dossier.",
+    register_deja_compte: "Déjà un compte ?",
+    register_se_connecter: "Se connecter",
+    register_nom: "Nom complet",
+    register_email: "E-mail",
+    register_profil: "Vous êtes",
+    register_profil_choisir: "Choisissez votre profil",
+    register_pays: "Pays de résidence",
+    register_ville: "Ville",
+    register_telephone: "Téléphone / WhatsApp",
+    register_telephone_aide: "Avec l'indicatif du pays, ex. +237 6XX XX XX XX.",
+    register_mot_de_passe: "Mot de passe",
+    register_mot_de_passe_aide: "8 caractères minimum.",
+    register_bouton: "Créer mon compte",
+    register_bouton_en_cours: "Création…",
+
+    clients_col_profil: "Profil",
+    clients_col_pays: "Pays",
   },
   en: {
     nav_mes_projets: "My projects",
@@ -154,9 +181,36 @@ export const UI = {
     audit_aucune_entree: "No entry yet.",
 
     login_titre: "Log in",
-    login_sous_titre: "Manage your projects in Cameroon, wherever you are.",
+    login_sous_titre: "Manage your projects in Cameroon, whether you live there or abroad.",
+    login_accroche: "In Cameroon or abroad, stay in control of your project.",
+    login_accroche_desc:
+      "Real-time tracking, secure documents, traceable payments — one platform for the diaspora, Cameroonian residents, expatriates and our African and international clients.",
+    login_pas_de_compte: "No account yet?",
+    login_creer_compte: "Create an account",
+    espaces: "Client area · Back office · Field missions",
+
     register_titre: "Create an account",
     register_sous_titre: "Open your YEGA client account in a few seconds.",
+    register_accroche: "Submit your first project in a few minutes.",
+    register_accroche_desc:
+      "Real estate, administrative procedures, events — whether you live in Cameroon, elsewhere in Africa or anywhere in the world, YEGA supports every step, from first contact to closing the file.",
+    register_deja_compte: "Already have an account?",
+    register_se_connecter: "Log in",
+    register_nom: "Full name",
+    register_email: "Email",
+    register_profil: "You are",
+    register_profil_choisir: "Choose your profile",
+    register_pays: "Country of residence",
+    register_ville: "City",
+    register_telephone: "Phone / WhatsApp",
+    register_telephone_aide: "Include the country code, e.g. +237 6XX XX XX XX.",
+    register_mot_de_passe: "Password",
+    register_mot_de_passe_aide: "At least 8 characters.",
+    register_bouton: "Create my account",
+    register_bouton_en_cours: "Creating…",
+
+    clients_col_profil: "Profile",
+    clients_col_pays: "Country",
   },
 } as const;
 

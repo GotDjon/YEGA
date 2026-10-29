@@ -5,6 +5,7 @@ import { getCurrentProfile } from "@/lib/supabase/session";
 import { StatusTimeline } from "@/components/StatusTimeline";
 import { AwarenessTip } from "@/components/AwarenessTip";
 import {
+  getClientProfileLabels,
   getMissionTypeLabels,
   getPaymentMethodLabels,
   getPaymentStatusLabels,
@@ -64,7 +65,11 @@ export default async function ClientDetailPage({
         {client.nom}
       </h1>
       <p className="mt-1 text-sm text-gray-500">
-        {[client.telephone, client.pays]
+        {[
+          client.profil_client ? getClientProfileLabels(locale)[client.profil_client] : null,
+          client.telephone,
+          [client.ville, client.pays].filter(Boolean).join(", "),
+        ]
           .filter(Boolean)
           .concat(`client depuis ${new Date(client.date_creation).toLocaleDateString("fr-FR")}`)
           .join(" · ")}
