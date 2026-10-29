@@ -101,10 +101,10 @@ export default async function ProjectPage() {
                     <ServiceIcon name={service.ancre} />
                   </span>
                   <h3 className="mt-4 font-[family-name:var(--font-display)] text-xl font-semibold text-heading">
-                    {service.titre}
+                    {service.famille}
                   </h3>
                   <p className="text-sm font-semibold text-brand-gold-dark dark:text-brand-gold-on-dark">
-                    {service.famille}
+                    {service.titre}
                   </p>
                   <p className="mt-3 flex-1 text-sm leading-relaxed text-gray-600">{service.desc}</p>
                   <span className="mt-4 text-sm font-semibold text-brand-green dark:text-brand-gold-on-dark">
