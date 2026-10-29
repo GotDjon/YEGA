@@ -14,7 +14,7 @@ export const LOGISTICS = {
     nav_retour_espace: "Mon espace",
 
     hero_surtitre: "Filiale logistique du Groupe YEGA",
-    hero_titre: "La logistique du dernier kilomètre, propre et fiable, au Cameroun.",
+    hero_titre: "On s'occupe du terrain. Vous vous occupez de l'essentiel.",
     hero_desc:
       "Collecte des ordures ménagères, livraison en moto électrique, gestion déléguée de vos opérations : YEGA LOGISTICS met la même exigence de confiance au service des ménages, des commerces et des entreprises.",
     hero_cta_services: "Découvrir nos services",
@@ -175,7 +175,7 @@ export const LOGISTICS = {
     nav_retour_espace: "My account",
 
     hero_surtitre: "Logistics subsidiary of the YEGA Group",
-    hero_titre: "Clean, reliable last-mile logistics in Cameroon.",
+    hero_titre: "We handle the groundwork. You focus on what matters.",
     hero_desc:
       "Household waste collection, electric-motorbike delivery, outsourced operations: YEGA LOGISTICS brings the same commitment to trust to households, shops and companies.",
     hero_cta_services: "Discover our services",
