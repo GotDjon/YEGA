@@ -45,7 +45,7 @@ export default async function LoginPage({
           </h1>
           <p className="mt-1 text-sm text-brand-ink/60">{t.login_sous_titre}</p>
 
-          <LoginForm next={next ?? "/dashboard"} />
+          <LoginForm next={next ?? "/dashboard"} locale={locale} />
 
           <p className="mt-6 text-center text-sm text-brand-ink/60">
             {t.login_pas_de_compte}{" "}
