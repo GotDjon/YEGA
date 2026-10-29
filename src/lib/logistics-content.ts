@@ -152,9 +152,10 @@ export const LOGISTICS = {
       "Courses, démarches et relances auprès des acheteurs",
       "Rapport écrit chaque semaine et point de suivi",
     ],
-    soustraitance_partenaire_surtitre: "Premier partenaire",
-    soustraitance_partenaire_desc:
-      "YELELE Digit nous confie sa gestion logistique et commerciale à Yaoundé : collecte des bons de commande, livraisons en supermarchés, stock rotatif et reporting hebdomadaire.",
+    soustraitance_confiance_titre: "Ils nous font confiance",
+    soustraitance_rejoindre_titre: "Votre entreprise ici ?",
+    soustraitance_rejoindre_desc: "Confiez-nous votre logistique et rejoignez-les.",
+    soustraitance_rejoindre_cta: "Faites comme eux →",
     soustraitance_cta: "Discuter de votre besoin",
     soustraitance_whatsapp_message:
       "Bonjour YEGA LOGISTICS, mon entreprise souhaite échanger sur une sous-traitance logistique. Entreprise : … / Ville : … / Besoin : …",
@@ -312,9 +313,10 @@ export const LOGISTICS = {
       "Errands, paperwork and follow-ups with buyers",
       "Written report every week and a follow-up call",
     ],
-    soustraitance_partenaire_surtitre: "First partner",
-    soustraitance_partenaire_desc:
-      "YELELE Digit entrusts us with its logistics and sales operations in Yaoundé: purchase order collection, supermarket deliveries, rotating stock and weekly reporting.",
+    soustraitance_confiance_titre: "They trust us",
+    soustraitance_rejoindre_titre: "Your company here?",
+    soustraitance_rejoindre_desc: "Hand us your logistics and join them.",
+    soustraitance_rejoindre_cta: "Do as they did →",
     soustraitance_cta: "Discuss your needs",
     soustraitance_whatsapp_message:
       "Hello YEGA LOGISTICS, my company would like to discuss logistics outsourcing. Company: … / City: … / Need: …",

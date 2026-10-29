@@ -306,33 +306,14 @@ export default async function LogisticsPage() {
             <SectionHeading surtitre={c.soustraitance_surtitre} titre={c.soustraitance_titre} />
             <p className="mt-6 max-w-3xl leading-relaxed text-gray-600">{c.soustraitance_desc}</p>
 
-            <div className="mt-8 grid gap-8 lg:grid-cols-[1fr_360px]">
-              <ul className="grid gap-3 sm:grid-cols-2">
-                {c.soustraitance_services.map((service) => (
-                  <li key={service} className="flex gap-3 text-sm leading-relaxed text-gray-700">
-                    <CheckIcon />
-                    {service}
-                  </li>
-                ))}
-              </ul>
-
-              <div className="card rounded-2xl border border-brand-gold/40 bg-white p-6">
-                <p className="text-xs font-semibold uppercase tracking-[0.18em] text-brand-gold-dark dark:text-brand-gold-on-dark">
-                  {c.soustraitance_partenaire_surtitre}
-                </p>
-                <div className="mt-4 flex items-center gap-4">
-                  <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#fff] p-1.5 ring-1 ring-gray-100">
-                    <Image src="/yelele-digit.png" alt="YELELE Digit" width={56} height={54} />
-                  </span>
-                  <p className="font-[family-name:var(--font-display)] text-xl font-semibold text-heading">
-                    YELELE Digit
-                  </p>
-                </div>
-                <p className="mt-4 text-sm leading-relaxed text-gray-600">
-                  {c.soustraitance_partenaire_desc}
-                </p>
-              </div>
-            </div>
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              {c.soustraitance_services.map((service) => (
+                <li key={service} className="flex gap-3 text-sm leading-relaxed text-gray-700">
+                  <CheckIcon />
+                  {service}
+                </li>
+              ))}
+            </ul>
 
             <a
               href={whatsappLink(c.soustraitance_whatsapp_message)}
@@ -342,6 +323,35 @@ export default async function LogisticsPage() {
             >
               {c.soustraitance_cta}
             </a>
+
+            {/* Références clients : une carte par entreprise, puis une invitation à les rejoindre. */}
+            <h3 className="mt-14 text-center text-xs font-semibold uppercase tracking-[0.22em] text-brand-gold-dark dark:text-brand-gold-on-dark">
+              {c.soustraitance_confiance_titre}
+            </h3>
+            <div className="mx-auto mt-6 grid max-w-3xl gap-4 sm:grid-cols-2">
+              <div className="card flex items-center justify-center gap-4 rounded-2xl border border-gray-100 bg-white p-6">
+                <span className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-[#fff] p-1.5 ring-1 ring-gray-100">
+                  <Image src="/yelele-digit.png" alt="" width={56} height={54} />
+                </span>
+                <p className="font-[family-name:var(--font-display)] text-2xl font-semibold tracking-tight text-heading">
+                  YELELE DIGIT
+                </p>
+              </div>
+              <a
+                href={whatsappLink(c.soustraitance_whatsapp_message)}
+                target="_blank"
+                rel="noreferrer"
+                className="card-interactive flex flex-col items-center justify-center rounded-2xl border-2 border-dashed border-brand-gold/50 p-6 text-center transition hover:border-brand-gold hover:bg-brand-gold-light/20"
+              >
+                <p className="font-[family-name:var(--font-display)] text-lg font-semibold text-heading">
+                  {c.soustraitance_rejoindre_titre}
+                </p>
+                <p className="mt-1 text-sm text-gray-600">{c.soustraitance_rejoindre_desc}</p>
+                <p className="mt-3 text-sm font-semibold text-brand-green dark:text-brand-gold-on-dark">
+                  {c.soustraitance_rejoindre_cta}
+                </p>
+              </a>
+            </div>
           </div>
         </section>
 
