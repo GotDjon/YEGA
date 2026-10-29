@@ -14,7 +14,7 @@ export const LOGISTICS = {
     hero_titre: "On s'occupe du terrain. Vous vous occupez de l'essentiel.",
     hero_desc:
       "Collecte des ordures ménagères, livraison en moto électrique, gestion déléguée de vos opérations : YEGA LOGISTICS met la même exigence de confiance au service des ménages, des commerces et des entreprises.",
-    hero_cta_services: "Découvrir nos services",
+    hero_cta_services: "Nos services",
     hero_cta_contact: "Nous écrire sur WhatsApp",
 
     services_titre: "Trois services, une même exigence",
@@ -172,7 +172,7 @@ export const LOGISTICS = {
     hero_titre: "We handle the groundwork. You focus on what matters.",
     hero_desc:
       "Household waste collection, electric-motorbike delivery, outsourced operations: YEGA LOGISTICS brings the same commitment to trust to households, shops and companies.",
-    hero_cta_services: "Discover our services",
+    hero_cta_services: "Our services",
     hero_cta_contact: "Message us on WhatsApp",
 
     services_titre: "Three services, one standard",
