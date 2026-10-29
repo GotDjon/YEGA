@@ -17,7 +17,9 @@ export default async function LoginPage({
     <div className="brand-surface flex min-h-screen items-center justify-center px-4 py-12">
       <div className="grid w-full max-w-4xl overflow-hidden rounded-3xl shadow-2xl shadow-black/30 md:grid-cols-2">
         <div className="hidden flex-col justify-between bg-transparent p-10 text-[#fff] md:flex">
-          <Logo variant="light" size="lg" />
+          <Link href="/" className="self-start">
+            <Logo variant="light" size="lg" />
+          </Link>
           <div>
             <p className="font-[family-name:var(--font-display)] text-3xl leading-tight">
               {t.login_accroche}
@@ -30,7 +32,9 @@ export default async function LoginPage({
 
         <div className="bg-white p-8 sm:p-10">
           <div className="mb-6 flex items-center justify-between md:hidden">
-            <Logo />
+            <Link href="/">
+              <Logo />
+            </Link>
             <LanguageToggle locale={locale} label={t.changer_langue} />
           </div>
           <div className="hidden items-center justify-end md:flex">

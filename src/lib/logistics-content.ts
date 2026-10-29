@@ -10,9 +10,6 @@ export const LOGISTICS = {
     meta_description:
       "YEGA LOGISTICS, filiale logistique du Groupe YEGA : PoubApp (collecte des ordures ménagères), livraison écologique en moto électrique et sous-traitance logistique au Cameroun.",
 
-    nav_espace_client: "Espace client",
-    nav_retour_espace: "Mon espace",
-
     hero_surtitre: "Filiale logistique du Groupe YEGA",
     hero_titre: "On s'occupe du terrain. Vous vous occupez de l'essentiel.",
     hero_desc:
@@ -170,9 +167,6 @@ export const LOGISTICS = {
     meta_titre: "YEGA LOGISTICS — Waste collection, green delivery and logistics outsourcing",
     meta_description:
       "YEGA LOGISTICS, the logistics subsidiary of the YEGA Group: PoubApp (household waste collection), green delivery by electric motorbike and logistics outsourcing in Cameroon.",
-
-    nav_espace_client: "Client area",
-    nav_retour_espace: "My account",
 
     hero_surtitre: "Logistics subsidiary of the YEGA Group",
     hero_titre: "We handle the groundwork. You focus on what matters.",
