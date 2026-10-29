@@ -86,6 +86,9 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
               </Link>
             </>
           )}
+          <Link href="/logistics" className={navLinkClass}>
+            {t.nav_logistics}
+          </Link>
           <Link href="/aide" className={navLinkClass}>
             {t.nav_aide}
           </Link>
@@ -174,6 +177,9 @@ export async function SiteHeader({ profile }: { profile: Profile }) {
             </Link>
           </>
         )}
+        <Link href="/logistics" className={mobileNavLinkClass}>
+          {t.nav_logistics}
+        </Link>
         <Link href="/aide" className={mobileNavLinkClass}>
           {t.nav_aide}
         </Link>

@@ -49,6 +49,11 @@ export default async function LoginPage({
               {t.login_creer_compte}
             </Link>
           </p>
+          <p className="mt-4 border-t border-gray-100 pt-4 text-center text-xs">
+            <Link href="/logistics" className="font-semibold text-brand-gold-dark hover:text-heading">
+              {t.decouvrir_logistics}
+            </Link>
+          </p>
         </div>
       </div>
     </div>

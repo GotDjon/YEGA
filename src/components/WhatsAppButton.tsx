@@ -1,11 +1,15 @@
 import { getLocale, UI } from "@/lib/i18n";
 
 // Numéro WhatsApp Business de YEGA (format international, sans "+" ni espaces pour wa.me).
-const WHATSAPP_NUMBER = "237652343154";
+export const WHATSAPP_NUMBER = "237652343154";
+
+export function whatsappLink(message: string) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+}
 
 export async function WhatsAppButton() {
   const t = UI[await getLocale()];
-  const href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(t.whatsapp_message)}`;
+  const href = whatsappLink(t.whatsapp_message);
 
   return (
     <a
