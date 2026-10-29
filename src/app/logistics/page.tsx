@@ -179,9 +179,7 @@ export default async function LogisticsPage() {
             <div className="grid items-center gap-10 md:grid-cols-[1fr_auto]">
               <div>
                 <SectionHeading surtitre={c.poubapp_surtitre} titre={c.poubapp_titre} />
-                <p className="mt-6 max-w-2xl leading-relaxed text-gray-600">{c.poubapp_desc}</p>
-                <p className="mt-4 text-sm font-semibold text-heading">{c.poubapp_zones}</p>
-              </div>
+                <p className="mt-6 max-w-2xl leading-relaxed text-gray-600">{c.poubapp_desc}</p>              </div>
               <Image
                 src="/poubapp-logo.png"
                 alt="PoubApp"

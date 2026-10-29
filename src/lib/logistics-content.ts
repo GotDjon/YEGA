@@ -104,7 +104,6 @@ export const LOGISTICS = {
       },
     ],
     poubapp_populaire: "Le plus choisi",
-    poubapp_zones: "Zones de lancement : Yaoundé 4 et Yaoundé 6.",
     poubapp_telecharger_titre: "Téléchargez PoubApp",
     poubapp_telecharger_desc:
       "L'application arrive très bientôt sur Android et iOS. Inscrivez-vous dès maintenant pour être prévenu du lancement — et profitez des tarifs de lancement.",
@@ -265,7 +264,6 @@ export const LOGISTICS = {
       },
     ],
     poubapp_populaire: "Most popular",
-    poubapp_zones: "Launch areas: Yaoundé 4 and Yaoundé 6.",
     poubapp_telecharger_titre: "Download PoubApp",
     poubapp_telecharger_desc:
       "The app is coming soon to Android and iOS. Sign up now to be notified at launch — and get the launch prices.",
